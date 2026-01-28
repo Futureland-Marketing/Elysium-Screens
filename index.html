@@ -18,7 +18,7 @@
                     colors: {
                         elysium: {
                             gold: '#C5A059', 
-                            dark: '#050505', /* Noir très profond pour le footer/features */
+                            dark: '#050505',
                             light: '#f8f9fa',
                             text: '#1a1a1a',
                             subtext: '#9ca3af'
@@ -30,11 +30,17 @@
                     },
                     animation: {
                         'shine': 'shine 6s linear infinite',
+                        'luxury-drift': 'gradientBG 15s ease infinite',
                     },
                     keyframes: {
                         shine: {
                             '0%': { backgroundPosition: '200% center' },
                             '100%': { backgroundPosition: '-200% center' },
+                        },
+                        gradientBG: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' },
                         }
                     }
                 }
@@ -77,13 +83,7 @@
         }
 
         .text-shine {
-            background: linear-gradient(
-                to right,
-                #ffffff 20%,
-                #C5A059 40%,
-                #C5A059 60%,
-                #ffffff 80%
-            );
+            background: linear-gradient(to right, #ffffff 20%, #C5A059 40%, #C5A059 60%, #ffffff 80%);
             background-size: 200% auto;
             color: #fff;
             background-clip: text;
@@ -92,47 +92,32 @@
             animation: shine 5s linear infinite;
         }
 
-        @keyframes shine {
-            to { background-position: 200% center; }
+        /* Animation de fond luxe */
+        .luxury-bg {
+            background: linear-gradient(-45deg, #050505, #1a1a1a, #0a0a0a, #000000);
+            background-size: 400% 400%;
+        }
+
+        /* Dropdown Menu */
+        .dropdown:hover .dropdown-menu {
+            display: block;
         }
 
         /* Slider Custom Style */
-        input[type=range] {
-            -webkit-appearance: none; 
-            background: transparent; 
-        }
-
+        input[type=range] { -webkit-appearance: none; background: transparent; }
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            background: #C5A059;
-            cursor: pointer;
-            margin-top: -10px; 
-            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.2);
-            transition: box-shadow 0.2s;
+            -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%;
+            background: #C5A059; cursor: pointer; margin-top: -10px; 
+            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.2); transition: box-shadow 0.2s;
         }
-
-        input[type=range]::-webkit-slider-thumb:hover {
-            box-shadow: 0 0 0 8px rgba(197, 160, 89, 0.2);
-        }
-
+        input[type=range]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 8px rgba(197, 160, 89, 0.2); }
         input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            cursor: pointer;
-            background: #4a4a4a;
-            border-radius: 2px;
+            width: 100%; height: 4px; cursor: pointer; background: #4a4a4a; border-radius: 2px;
         }
         
-        .glass-nav {
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
-        }
-
+        .glass-nav { background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%); }
         .scrolled-nav {
-            background-color: rgba(5, 5, 5, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(197, 160, 89, 0.1);
         }
     </style>
@@ -145,15 +130,24 @@
             <div class="flex justify-between items-center">
                 <!-- Logo -->
                 <div class="flex-shrink-0 cursor-pointer" onclick="navigateTo('home')">
-                    <img src="https://i.imgur.com/Xx8D9E0.png" 
-                         alt="Elysium Screens" 
-                         class="h-14 w-auto object-contain transition transform hover:scale-105 duration-300">
+                    <img src="https://i.imgur.com/Xx8D9E0.png" alt="Elysium Screens" class="h-14 w-auto object-contain transition transform hover:scale-105 duration-300">
                 </div>
 
                 <!-- Desktop Menu -->
                 <nav class="hidden md:flex space-x-10 items-center">
                     <button onclick="navigateTo('home')" class="text-white hover:text-elysium-gold font-bold uppercase tracking-widest text-xs transition duration-300">Accueil</button>
-                    <button onclick="navigateTo('models')" class="text-white hover:text-elysium-gold font-medium uppercase tracking-widest text-xs transition duration-300">Modèles</button>
+                    
+                    <!-- Dropdown Modèles -->
+                    <div class="relative dropdown group h-24 flex items-center">
+                        <button class="text-white group-hover:text-elysium-gold font-medium uppercase tracking-widest text-xs transition duration-300 flex items-center">
+                            Modèles <i data-lucide="chevron-down" class="w-3 h-3 ml-1"></i>
+                        </button>
+                        <div class="dropdown-menu absolute hidden top-20 left-1/2 transform -translate-x-1/2 w-48 bg-black/95 border border-zinc-800 shadow-xl rounded-sm pt-2">
+                            <a onclick="navigateTo('model-edge-one')" class="block px-6 py-4 text-xs font-bold text-white hover:text-elysium-gold hover:bg-zinc-900 uppercase tracking-widest transition cursor-pointer">Edge|One</a>
+                            <a onclick="navigateTo('model-zenith')" class="block px-6 py-4 text-xs font-bold text-white hover:text-elysium-gold hover:bg-zinc-900 uppercase tracking-widest transition cursor-pointer border-t border-zinc-800">Zenith</a>
+                        </div>
+                    </div>
+
                     <button onclick="navigateToHomeSection('fabrics-section')" class="text-white hover:text-elysium-gold font-medium uppercase tracking-widest text-xs transition duration-300">Toiles</button>
                     <button onclick="navigateTo('contact')" class="text-white hover:text-elysium-gold font-medium uppercase tracking-widest text-xs transition duration-300">Contact</button>
                 </nav>
@@ -175,7 +169,8 @@
         <div id="mobile-menu" class="hidden absolute top-24 left-0 w-full bg-black/95 border-t border-gray-800 md:hidden">
             <div class="flex flex-col p-6 space-y-4 text-center">
                 <button onclick="navigateTo('home')" class="text-white text-sm uppercase tracking-widest py-2 font-bold">Accueil</button>
-                <button onclick="navigateTo('models')" class="text-white text-sm uppercase tracking-widest py-2">Modèles</button>
+                <button onclick="navigateTo('model-edge-one')" class="text-white text-sm uppercase tracking-widest py-2">Edge|One</button>
+                <button onclick="navigateTo('model-zenith')" class="text-white text-sm uppercase tracking-widest py-2">Zenith</button>
                 <button onclick="navigateToHomeSection('fabrics-section')" class="text-white text-sm uppercase tracking-widest py-2">Toiles</button>
                 <button onclick="navigateTo('contact')" class="text-white text-sm uppercase tracking-widest py-2">Contact</button>
             </div>
@@ -189,23 +184,18 @@
         <section id="home" class="page-section active">
             <!-- Hero Section -->
             <div class="relative h-screen w-full overflow-hidden">
-                <!-- Background Image Updated -->
                 <div class="absolute inset-0 z-0">
-                    <img src="https://i.imgur.com/fon5zRt.jpeg" 
-                         alt="Home Cinema" 
-                         class="w-full h-full object-cover transition-transform duration-[20s] hover:scale-105">
-                    <!-- Overlay sombre -->
-                    <div class="absolute inset-0 bg-black/40"></div>
+                    <img src="https://i.imgur.com/fon5zRt.jpeg" alt="Home Cinema" class="w-full h-full object-cover transition-transform duration-[20s] hover:scale-105">
+                    <div class="absolute inset-0 bg-black/20"></div>
+                    <div class="absolute inset-y-0 right-0 w-full md:w-3/5 bg-gradient-to-l from-black/90 via-black/60 to-transparent z-0"></div>
                 </div>
 
-                <!-- Content -->
-                <div class="relative z-10 h-full flex items-center">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                        <div class="max-w-2xl reveal-on-scroll is-visible">
+                <div class="relative z-10 h-full flex items-center pb-12">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-end">
+                        <div class="max-w-2xl reveal-on-scroll is-visible text-left">
                             <p class="text-elysium-gold uppercase tracking-[0.2em] text-xs font-bold mb-4">Excellence Visuelle</p>
                             <h1 class="text-heavy text-5xl md:text-7xl text-white mb-6 leading-tight">
-                                L'Art de la <br>
-                                <span class="text-shine">Projection</span>
+                                L'Art de la <br> <span class="text-shine">Projection</span>
                             </h1>
                             <p class="text-gray-200 text-lg mb-10 text-light-custom leading-relaxed max-w-lg">
                                 Découvrez notre collection d'écrans de projection haut de gamme, conçus pour transformer chaque visionnage en une expérience immersive exceptionnelle.
@@ -214,7 +204,7 @@
                                 <button onclick="scrollToSection('gammes-home')" class="bg-white text-black px-8 py-4 uppercase tracking-widest font-bold text-xs hover:bg-gray-200 transition duration-300 flex items-center transform hover:translate-x-1">
                                     Découvrir nos écrans <i data-lucide="chevron-right" class="w-4 h-4 ml-2"></i>
                                 </button>
-                                <button onclick="navigateTo('contact')" class="border border-white text-white px-8 py-4 uppercase tracking-widest font-bold text-xs hover:bg-white hover:text-black transition duration-300">
+                                <button onclick="navigateTo('contact')" class="border border-white text-white px-8 py-4 uppercase tracking-widest font-bold text-xs hover:bg-elysium-gold hover:border-elysium-gold hover:text-white transition duration-300">
                                     Nous contacter
                                 </button>
                             </div>
@@ -223,90 +213,68 @@
                 </div>
             </div>
 
-            <!-- SECTION GAMMES SUR L'ACCUEIL -->
+            <!-- SECTION GAMMES (HOME) -->
             <div id="gammes-home" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16 reveal-on-scroll">
                     <span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-3">Nos Gammes</span>
                     <h2 class="text-heavy text-4xl md:text-5xl text-elysium-text">Deux Solutions Premium</h2>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                    
-                    <!-- Card 1: Edge|One -->
+                    <!-- Edge|One Card -->
                     <div class="group reveal-on-scroll" style="transition-delay: 100ms;">
-                        <div class="bg-white border-2 border-black h-64 flex items-center justify-center p-8 relative overflow-hidden transition-all duration-500 hover:shadow-2xl">
-                             <!-- Nouvelle URL Edge One -->
-                             <img src="https://i.imgur.com/RkiY7FD.png" 
-                                  alt="Edge One" class="max-w-[280px] w-full relative z-10 transform group-hover:scale-105 transition duration-500">
-                             <!-- Effet subtil de lueur au survol -->
+                        <div class="bg-white border-2 border-black h-64 flex items-center justify-center p-8 relative overflow-hidden transition-all duration-500 hover:shadow-2xl cursor-pointer" onclick="navigateTo('model-edge-one')">
+                             <img src="https://i.imgur.com/RkiY7FD.png" alt="Edge One" class="max-w-[280px] w-full relative z-10 transform group-hover:scale-105 transition duration-500">
                              <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-white/20 opacity-0 group-hover:opacity-100 transition duration-500"></div>
                         </div>
                         <div class="bg-gray-50 p-10 border-t-0 border border-gray-100 transition-colors duration-300">
                             <span class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">Cadre Ultra-Fin</span>
                             <h3 class="text-2xl font-bold text-elysium-gold mb-4">Edge|One</h3>
                             <p class="text-gray-600 mb-8 leading-relaxed text-sm text-light-custom">
-                                Écrans à cadre ultra-fin avec un choix de 5 toiles haute performance et 7 tailles disponibles de 90" à 160". Design épuré et installation simplifiée.
+                                Écrans à cadre ultra-fin avec un choix de 5 toiles haute performance et 7 tailles disponibles de 90" à 160".
                             </p>
-                            <button onclick="navigateTo('models')" class="text-xs font-bold uppercase tracking-widest text-elysium-gold hover:text-black transition flex items-center gap-2 group-hover:gap-3">
+                            <button onclick="navigateTo('model-edge-one')" class="text-xs font-bold uppercase tracking-widest text-elysium-gold hover:text-black transition flex items-center gap-2 group-hover:gap-3">
                                 En savoir plus <i data-lucide="arrow-right" class="w-4 h-4"></i>
                             </button>
                         </div>
                     </div>
-
-                    <!-- Card 2: Zenith -->
+                    <!-- Zenith Card -->
                     <div class="group reveal-on-scroll" style="transition-delay: 200ms;">
-                        <div class="bg-white border-2 border-black h-64 flex items-center justify-center p-8 relative overflow-hidden transition-all duration-500 hover:shadow-2xl">
-                            <!-- Nouvelle URL Zenith -->
-                            <img src="https://i.imgur.com/y2K7dif.png" 
-                                 alt="Zenith" class="max-w-[280px] w-full relative z-10 transform group-hover:scale-105 transition duration-500">
-                             <!-- Effet subtil de lueur au survol -->
+                        <div class="bg-white border-2 border-black h-64 flex items-center justify-center p-8 relative overflow-hidden transition-all duration-500 hover:shadow-2xl cursor-pointer" onclick="navigateTo('model-zenith')">
+                            <img src="https://i.imgur.com/y2K7dif.png" alt="Zenith" class="max-w-[280px] w-full relative z-10 transform group-hover:scale-105 transition duration-500">
                              <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-white/20 opacity-0 group-hover:opacity-100 transition duration-500"></div>
                         </div>
                         <div class="bg-gray-50 p-10 border-t-0 border border-gray-100 transition-colors duration-300">
                             <span class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">Motorisé de Sol</span>
                             <h3 class="text-2xl font-bold text-elysium-gold mb-4">Zenith</h3>
                             <p class="text-gray-600 mb-8 leading-relaxed text-sm text-light-custom">
-                                Écrans motorisés de sol avec toile CLR optimisée pour projecteurs ultra courte focale. Solution élégante et discrète en 4 tailles de 90" à 120".
+                                Écrans motorisés de sol avec toile CLR optimisée pour projecteurs ultra courte focale.
                             </p>
-                            <button onclick="navigateTo('models')" class="text-xs font-bold uppercase tracking-widest text-elysium-gold hover:text-black transition flex items-center gap-2 group-hover:gap-3">
+                            <button onclick="navigateTo('model-zenith')" class="text-xs font-bold uppercase tracking-widest text-elysium-gold hover:text-black transition flex items-center gap-2 group-hover:gap-3">
                                 En savoir plus <i data-lucide="arrow-right" class="w-4 h-4"></i>
                             </button>
                         </div>
                     </div>
-
                 </div>
             </div>
 
-            <!-- CALCULATEUR DE TAILLE REVISITÉ -->
+            <!-- CALCULATEUR -->
             <div class="bg-gray-50 py-20 border-b border-gray-200">
                 <div class="max-w-5xl mx-auto px-4 reveal-on-scroll">
                     <div class="text-center mb-10">
                         <h2 class="text-heavy text-3xl md:text-4xl text-elysium-text mb-4">Simulateur d'Immersion Cinéma</h2>
-                        <p class="text-gray-500 text-sm max-w-2xl mx-auto">
-                            Quelle taille choisir pour retrouver l'émotion de la salle de cinéma chez vous ?
-                        </p>
+                        <p class="text-gray-500 text-sm max-w-2xl mx-auto">Quelle taille choisir pour retrouver l'émotion de la salle de cinéma chez vous ?</p>
                     </div>
-
                     <div class="bg-white rounded-xl shadow-xl p-8 md:p-12 border border-gray-100 relative overflow-hidden">
                         <div class="flex flex-col md:flex-row items-center justify-between gap-12">
-                            
-                            <!-- Slider Section -->
                             <div class="w-full md:w-1/2 relative z-10">
                                 <div class="flex justify-between items-end mb-4">
                                     <label class="text-sm uppercase tracking-widest text-gray-500 font-bold">Ma distance de visionnage</label>
                                     <span class="text-2xl font-bold text-elysium-gold" id="distance-display">3.5m</span>
                                 </div>
                                 <input type="range" min="2" max="6" step="0.1" value="3.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" id="distance-slider">
-                                <div class="flex justify-between text-xs text-gray-400 mt-2">
-                                    <span>2m</span>
-                                    <span>6m</span>
-                                </div>
+                                <div class="flex justify-between text-xs text-gray-400 mt-2"><span>2m</span><span>6m</span></div>
                             </div>
-
-                            <!-- Divider -->
                             <div class="hidden md:block w-px h-24 bg-gray-200 relative z-10"></div>
-
-                            <!-- Result Section -->
                             <div class="w-full md:w-1/2 flex flex-col items-center justify-center text-center relative z-10">
                                 <div class="mb-4">
                                     <p class="text-xs uppercase tracking-widest text-gray-400 mb-1 font-bold">Recommandation Immersion</p>
@@ -319,270 +287,307 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- DISCLAIMER BOX & ACTION -->
                         <div class="mt-8 pt-6 border-t border-gray-100 bg-blue-50/50 -mx-8 -mb-12 p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
                             <div class="flex items-start gap-4">
-                                <div class="bg-elysium-gold/20 p-2 rounded-full text-elysium-gold mt-1">
-                                    <i data-lucide="check-circle" class="w-5 h-5"></i>
-                                </div>
+                                <div class="bg-elysium-gold/20 p-2 rounded-full text-elysium-gold mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></div>
                                 <div>
                                     <h4 class="text-sm font-bold text-gray-800 mb-1">Pas de panique !</h4>
-                                    <p class="text-xs text-gray-600 leading-relaxed max-w-lg">
-                                        Ce résultat est une recommandation pour une immersion type salle de cinéma (angle de 40°). 
-                                        <strong>Votre projecteur permet probablement une image plus petite ou plus grande grâce à son zoom.</strong>
-                                    </p>
+                                    <p class="text-xs text-gray-600 leading-relaxed max-w-lg">Ce résultat est une recommandation pour une immersion type salle de cinéma (angle de 40°). <strong>Votre projecteur permet probablement une image plus petite ou plus grande.</strong></p>
                                 </div>
                             </div>
-                            <button onclick="navigateTo('contact')" class="flex-shrink-0 bg-elysium-dark text-white px-6 py-3 text-xs font-bold uppercase tracking-widest hover:bg-elysium-gold transition rounded-sm shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-200">
-                                Vérifier ma compatibilité
-                            </button>
+                            <button onclick="navigateTo('contact')" class="flex-shrink-0 bg-elysium-dark text-white px-6 py-3 text-xs font-bold uppercase tracking-widest hover:bg-elysium-gold transition rounded-sm shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-200">Vérifier ma compatibilité</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- SECTION TOILES -->
+            <!-- FEATURES RASSURANCE -->
+            <div class="bg-elysium-dark py-16 reveal-on-scroll">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="text-center group">
+                            <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300"><i data-lucide="award" class="w-8 h-8"></i></div>
+                            <h3 class="text-white font-bold text-lg mb-2">Qualité Premium</h3>
+                            <p class="text-gray-500 text-xs leading-relaxed px-4">Matériaux haut de gamme et fabrication artisanale.</p>
+                        </div>
+                        <div class="text-center group">
+                            <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300"><i data-lucide="truck" class="w-8 h-8"></i></div>
+                            <h3 class="text-white font-bold text-lg mb-2">Livraison Gratuite</h3>
+                            <p class="text-gray-500 text-xs leading-relaxed px-4">Livraison offerte en France métropolitaine.</p>
+                        </div>
+                        <div class="text-center group">
+                            <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300"><i data-lucide="shield-check" class="w-8 h-8"></i></div>
+                            <h3 class="text-white font-bold text-lg mb-2">Garantie 5 Ans</h3>
+                            <p class="text-gray-500 text-xs leading-relaxed px-4">Garantie 5 ans pièces et main d'œuvre.</p>
+                        </div>
+                        <div class="text-center group">
+                            <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300"><i data-lucide="headset" class="w-8 h-8"></i></div>
+                            <h3 class="text-white font-bold text-lg mb-2">Support Expert</h3>
+                            <p class="text-gray-500 text-xs leading-relaxed px-4">Accompagnement personnalisé.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOILES -->
             <div id="fabrics-section" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white">
                 <div class="text-center mb-16 reveal-on-scroll">
                     <span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-3">Nos Toiles</span>
                     <h2 class="text-heavy text-4xl md:text-5xl text-elysium-text mb-4">6 Toiles Haute Performance</h2>
                     <p class="text-gray-500 text-sm">Chaque toile est optimisée pour un usage spécifique</p>
                 </div>
-
-                <!-- Grid Visual -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    
-                    <!-- 1. PureView -->
                     <div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 100ms;">
                         <img src="https://i.imgur.com/SB1sDNU.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="PureView">
                         <div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
                             <h3 class="text-elysium-gold font-bold text-xl mb-2">PureView</h3>
-                            <p class="text-white text-sm font-medium opacity-80 group-hover:opacity-100">Gain 1.1 • Pour pièce dédiée</p>
+                            <p class="text-white text-sm font-medium">Gain 1.1 • Pour pièce dédiée</p>
                         </div>
                     </div>
-
-                    <!-- 2. Aurora Pro ALR -->
                     <div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 150ms;">
                         <img src="https://i.imgur.com/jAPxpj0.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Aurora Pro ALR">
                         <div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
                             <h3 class="text-elysium-gold font-bold text-xl mb-2">Aurora Pro ALR</h3>
-                            <p class="text-white text-sm font-medium opacity-80 group-hover:opacity-100">Gain 0.8 • Spécial journée</p>
+                            <p class="text-white text-sm font-medium">Gain 0.8 • Spécial journée</p>
                         </div>
                     </div>
-
-                    <!-- 3. SonicWeave -->
                     <div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 200ms;">
                         <img src="https://i.imgur.com/HvS2Uwv.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="SonicWeave">
                         <div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
                             <h3 class="text-elysium-gold font-bold text-xl mb-2">SonicWeave</h3>
-                            <p class="text-white text-sm font-medium opacity-80 group-hover:opacity-100">Tissée 8K • Trans-sonore pure</p>
+                            <p class="text-white text-sm font-medium">Tissée 8K • Trans-sonore pure</p>
                         </div>
                     </div>
-
-                    <!-- 4. Apex Fresnel -->
                     <div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 250ms;">
                         <img src="https://i.imgur.com/sGPZg7n.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Apex Fresnel">
                         <div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
                             <h3 class="text-elysium-gold font-bold text-xl mb-2">Apex Fresnel</h3>
-                            <p class="text-white text-sm font-medium opacity-80 group-hover:opacity-100">Gain 1.6 • Luminosité boostée</p>
+                            <p class="text-white text-sm font-medium">Gain 1.6 • Luminosité boostée</p>
                         </div>
                     </div>
-
-                    <!-- 5. Eclipse UST -->
                     <div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 300ms;">
                         <img src="https://i.imgur.com/5ANxOlY.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Eclipse UST">
                         <div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
                             <h3 class="text-elysium-gold font-bold text-xl mb-2">Eclipse UST</h3>
-                            <p class="text-white text-sm font-medium opacity-80 group-hover:opacity-100">Contraste extrême pour Focale Courte</p>
+                            <p class="text-white text-sm font-medium">Contraste extrême pour Focale Courte</p>
                         </div>
                     </div>
-
-                    <!-- 6. Slate Grey (Fond uni gris foncé) -->
                     <div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg bg-[#3a3a3a] reveal-on-scroll" style="transition-delay: 350ms;">
-                         <!-- Effet de gradient subtil pour la texture -->
                         <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-black/20 opacity-50"></div>
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
-                        
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 transform transition-transform duration-500 group-hover:-translate-y-2">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
                             <h3 class="text-elysium-gold font-bold text-xl mb-2">Slate Grey</h3>
-                            <p class="text-white text-sm font-medium opacity-80 group-hover:opacity-100">Niveaux de noirs renforcés</p>
+                            <p class="text-white text-sm font-medium">Niveaux de noirs renforcés</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
 
-        <!-- ==================== RUBRIQUE RASSURANCE (FEATURES) ==================== -->
-        <section class="bg-elysium-dark py-16 border-t border-zinc-900 reveal-on-scroll">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Feature 1 -->
-                    <div class="text-center group">
-                        <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300">
-                            <i data-lucide="award" class="w-8 h-8"></i>
+        <!-- ==================== NOUVELLE PAGE: EDGE ONE ==================== -->
+        <section id="model-edge-one" class="page-section min-h-screen bg-white">
+            <!-- Hero with Animated Luxury Background -->
+            <div class="relative h-[60vh] w-full overflow-hidden flex items-center justify-center">
+                <!-- Background Image -->
+                <img src="https://i.imgur.com/58rDTpZ.jpeg" alt="EdgeOne Background" class="absolute inset-0 w-full h-full object-cover z-0">
+                <!-- Overlay -->
+                <div class="absolute inset-0 bg-black/40 z-0"></div>
+                
+                <div class="text-center z-10 px-4">
+                    <img src="https://i.imgur.com/Xx8D9E0.png" alt="Logo" class="h-12 w-auto mx-auto mb-6 opacity-80">
+                    <h1 class="text-heavy text-5xl md:text-7xl text-white mb-2">Edge|One</h1>
+                    <p class="text-elysium-gold uppercase tracking-[0.3em] text-sm font-bold">Cadre Ultra-Fin</p>
+                </div>
+            </div>
+
+            <!-- Block 1: Intro (Like screenshot 2) -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+                <div class="flex flex-col md:flex-row items-center gap-16">
+                    <div class="md:w-1/2">
+                        <span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-4">Cadre Ultra-Fin</span>
+                        <p class="text-gray-600 leading-loose mb-8">
+                            L'Edge|One incarne l'excellence en matière d'écrans à cadre fixe. Son design ultra-fin et épuré s'intègre parfaitement à votre intérieur tout en offrant une qualité d'image exceptionnelle.
+                        </p>
+                        <button onclick="navigateTo('contact')" class="bg-white text-black border border-black px-8 py-4 uppercase tracking-widest font-bold text-xs hover:bg-black hover:text-white transition duration-300">
+                            Demander un devis <i data-lucide="arrow-right" class="inline w-4 h-4 ml-2"></i>
+                        </button>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="https://i.imgur.com/RkiY7FD.png" alt="Edge One Room" class="rounded shadow-2xl w-full">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Block 2: Tech Specs (Like screenshot 3) -->
+            <div class="bg-gray-50 py-24">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 class="text-3xl font-medium text-black mb-16">Caractéristiques Techniques</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-12 text-left max-w-5xl mx-auto">
+                        <div class="flex items-center gap-4">
+                            <div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
+                            <span class="text-gray-700 text-sm">Cadre aluminium ultra-fin</span>
                         </div>
-                        <h3 class="text-white font-bold text-lg mb-2">Qualité Premium</h3>
-                        <p class="text-gray-500 text-xs leading-relaxed px-4">Matériaux haut de gamme et fabrication artisanale pour une durabilité exceptionnelle.</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
+                            <span class="text-gray-700 text-sm">Installation murale simplifiée</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
+                            <span class="text-gray-700 text-sm">Surface parfaitement plane</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
+                            <span class="text-gray-700 text-sm">Design minimaliste et élégant</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
+                            <span class="text-gray-700 text-sm">Fixations invisibles</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
+                            <span class="text-gray-700 text-sm">Compatible home cinema et professionnel</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Block 3: Sizes (Like screenshot 4) -->
+            <div class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 text-elysium-gold">
+                    <i data-lucide="ruler" class="w-8 h-8"></i>
+                </div>
+                <h2 class="text-3xl font-medium text-black mb-4">7 Tailles Disponibles</h2>
+                <p class="text-gray-500 mb-12">De 90 pouces à 160 pouces pour s'adapter à tous les espaces</p>
+                
+                <div class="flex flex-wrap justify-center gap-6">
+                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
+                        <span class="block text-2xl font-bold text-black mb-1">90"</span>
+                        <span class="text-xs text-gray-500">197 cm</span>
+                    </div>
+                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
+                        <span class="block text-2xl font-bold text-black mb-1">100"</span>
+                        <span class="text-xs text-gray-500">222 cm</span>
+                    </div>
+                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
+                        <span class="block text-2xl font-bold text-black mb-1">110"</span>
+                        <span class="text-xs text-gray-500">244 cm</span>
+                    </div>
+                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
+                        <span class="block text-2xl font-bold text-black mb-1">120"</span>
+                        <span class="text-xs text-gray-500">266 cm</span>
+                    </div>
+                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
+                        <span class="block text-2xl font-bold text-black mb-1">133"</span>
+                        <span class="text-xs text-gray-500">300 cm</span>
+                    </div>
+                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
+                        <span class="block text-2xl font-bold text-black mb-1">150"</span>
+                        <span class="text-xs text-gray-500">330 cm</span>
+                    </div>
+                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
+                        <span class="block text-2xl font-bold text-black mb-1">160"</span>
+                        <span class="text-xs text-gray-500">360 cm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Block 4: Fabrics (Like screenshot 5 with new images) -->
+            <div class="bg-gray-50 py-24">
+                <div class="max-w-7xl mx-auto px-4 text-center">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 text-elysium-gold">
+                        <i data-lucide="palette" class="w-8 h-8"></i>
+                    </div>
+                    <h2 class="text-3xl font-medium text-black mb-4">5 Toiles au Choix</h2>
+                    <p class="text-gray-500 mb-12">Choisissez la toile adaptée à votre environnement et votre projecteur</p>
+
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <!-- Img 1 -->
+                        <div class="bg-white p-4 shadow-sm w-48 hover:shadow-lg transition">
+                            <img src="https://i.imgur.com/glpseed.jpeg" class="w-full h-32 object-cover mb-4 rounded-sm" alt="Toile 1">
+                            <h4 class="font-bold text-sm">Pureview</h4>
+                        </div>
+                        <!-- Img 2 -->
+                        <div class="bg-white p-4 shadow-sm w-48 hover:shadow-lg transition">
+                            <img src="https://i.imgur.com/meMjTUZ.jpeg" class="w-full h-32 object-cover mb-4 rounded-sm" alt="Toile 2">
+                            <h4 class="font-bold text-sm">Aurora Pro ALR</h4>
+                        </div>
+                        <!-- Img 3 -->
+                        <div class="bg-white p-4 shadow-sm w-48 hover:shadow-lg transition">
+                            <img src="https://i.imgur.com/yLbBdYE.jpeg" class="w-full h-32 object-cover mb-4 rounded-sm" alt="Toile 3">
+                            <h4 class="font-bold text-sm">SonicWeave</h4>
+                        </div>
+                        <!-- Img 4 -->
+                        <div class="bg-white p-4 shadow-sm w-48 hover:shadow-lg transition">
+                            <img src="https://i.imgur.com/nw5ISIU.jpeg" class="w-full h-32 object-cover mb-4 rounded-sm" alt="Toile 4">
+                            <h4 class="font-bold text-sm">Apex ALR Standard</h4>
+                        </div>
+                        <!-- Img 5 -->
+                        <div class="bg-white p-4 shadow-sm w-48 hover:shadow-lg transition">
+                            <img src="https://i.imgur.com/i0p8B8n.jpeg" class="w-full h-32 object-cover mb-4 rounded-sm" alt="Toile 5">
+                            <h4 class="font-bold text-sm">Apex ALR UST</h4>
+                        </div>
                     </div>
                     
-                    <!-- Feature 2 -->
-                    <div class="text-center group">
-                        <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300">
-                            <i data-lucide="truck" class="w-8 h-8"></i>
-                        </div>
-                        <h3 class="text-white font-bold text-lg mb-2">Livraison Gratuite</h3>
-                        <p class="text-gray-500 text-xs leading-relaxed px-4">Livraison offerte en France métropolitaine pour toute commande.</p>
-                    </div>
-
-                    <!-- Feature 3 -->
-                    <div class="text-center group">
-                        <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300">
-                            <i data-lucide="shield-check" class="w-8 h-8"></i>
-                        </div>
-                        <h3 class="text-white font-bold text-lg mb-2">Garantie 5 Ans</h3>
-                        <p class="text-gray-500 text-xs leading-relaxed px-4">Tous nos écrans sont garantis 5 ans pièces et main d'œuvre.</p>
-                    </div>
-
-                    <!-- Feature 4 -->
-                    <div class="text-center group">
-                        <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300">
-                            <i data-lucide="headset" class="w-8 h-8"></i>
-                        </div>
-                        <h3 class="text-white font-bold text-lg mb-2">Support Expert</h3>
-                        <p class="text-gray-500 text-xs leading-relaxed px-4">Notre équipe d'experts vous accompagne dans votre choix et installation.</p>
+                    <div class="mt-12">
+                        <button onclick="navigateToHomeSection('fabrics-section')" class="text-elysium-gold text-xs font-bold uppercase tracking-widest hover:text-black transition">
+                            En savoir plus sur les toiles <i data-lucide="arrow-right" class="inline w-4 h-4 ml-1"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ==================== PAGE: MODÈLES (DÉTAILS) ==================== -->
-        <section id="models" class="page-section bg-white min-h-screen">
-            <div class="h-24 bg-black block md:hidden"></div> 
-            
-            <div class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16 reveal-on-scroll">
-                    <span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-3">Détails Gammes</span>
-                    <h2 class="text-heavy text-4xl md:text-5xl text-elysium-text">Configuration Premium</h2>
+        <!-- ==================== NOUVELLE PAGE: ZENITH (Structure) ==================== -->
+        <section id="model-zenith" class="page-section min-h-screen bg-white">
+             <div class="relative h-[60vh] w-full overflow-hidden luxury-bg animate-luxury-drift flex items-center justify-center">
+                <div class="text-center z-10 px-4">
+                    <img src="https://i.imgur.com/Xx8D9E0.png" alt="Logo" class="h-12 w-auto mx-auto mb-6 opacity-80">
+                    <h1 class="text-heavy text-5xl md:text-7xl text-white mb-2">Zenith</h1>
+                    <p class="text-elysium-gold uppercase tracking-[0.3em] text-sm font-bold">Motorisé de Sol</p>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                    <div class="group reveal-on-scroll" style="transition-delay: 100ms;">
-                        <div class="bg-white border-2 border-black h-64 flex items-center justify-center p-8 relative overflow-hidden transition-all duration-500">
-                             <img src="https://i.imgur.com/RkiY7FD.png" alt="Edge One" class="max-w-[280px] w-full relative z-10 transform group-hover:scale-105 transition duration-500">
-                        </div>
-                        <div class="bg-gray-50 p-10 border-t-0 border border-gray-100 transition-colors duration-300">
-                            <span class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">Cadre Ultra-Fin</span>
-                            <h3 class="text-2xl font-bold text-elysium-gold mb-4">Edge|One</h3>
-                            <ul class="text-sm text-gray-600 space-y-2 mb-8 list-disc list-inside">
-                                <li>Cadre aluminium aviation</li>
-                                <li>Bordure velours 8mm</li>
-                                <li>Tension parfaite garantie</li>
-                                <li>Compatible 4K/8K</li>
-                            </ul>
-                            <button onclick="navigateTo('contact')" class="text-xs font-bold uppercase tracking-widest text-elysium-gold hover:text-black transition flex items-center gap-2">
-                                Demander un devis <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="group reveal-on-scroll" style="transition-delay: 200ms;">
-                        <div class="bg-white border-2 border-black h-64 flex items-center justify-center p-8 relative overflow-hidden transition-all duration-500">
-                            <img src="https://i.imgur.com/y2K7dif.png" alt="Zenith" class="max-w-[280px] w-full relative z-10 transform group-hover:scale-105 transition duration-500">
-                        </div>
-                        <div class="bg-gray-50 p-10 border-t-0 border border-gray-100 transition-colors duration-300">
-                            <span class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">Motorisé de Sol</span>
-                            <h3 class="text-2xl font-bold text-elysium-gold mb-4">Zenith</h3>
-                             <ul class="text-sm text-gray-600 space-y-2 mb-8 list-disc list-inside">
-                                <li>Mécanisme ciseaux silencieux</li>
-                                <li>Toile technique CLR incluse</li>
-                                <li>Aucune installation murale requise</li>
-                                <li>Télécommande RF & IR</li>
-                            </ul>
-                            <button onclick="navigateTo('contact')" class="text-xs font-bold uppercase tracking-widest text-elysium-gold hover:text-black transition flex items-center gap-2">
-                                Demander un devis <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <div class="py-24 text-center">
+                <p class="text-gray-500">Contenu Zenith à venir...</p>
+                <button onclick="navigateTo('contact')" class="mt-8 bg-black text-white px-8 py-3 uppercase tracking-widest text-xs font-bold">Nous contacter</button>
             </div>
         </section>
 
         <!-- ==================== PAGE: CONTACT ==================== -->
         <section id="contact" class="page-section bg-zinc-950 text-white min-h-screen">
              <div class="h-24"></div>
-
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
                     <div class="reveal-on-scroll">
                         <span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-3">Contact</span>
                         <h2 class="text-heavy text-5xl mb-8">Votre projet commence ici</h2>
-                        <p class="text-gray-400 leading-loose mb-12">
-                            Vous hésitez entre le modèle Zenith et Edge|One ? Vous ne savez pas quelle toile choisir pour votre salon ? Nos experts sont là pour vous accompagner dans la conception de votre espace cinéma.
-                        </p>
-                        
                         <div class="space-y-8">
                             <div class="flex items-center group">
-                                <div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-elysium-gold group-hover:border-elysium-gold transition">
-                                    <i data-lucide="phone" class="w-5 h-5"></i>
-                                </div>
-                                <div class="ml-6">
-                                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Téléphone</p>
-                                    <p class="font-bold text-xl">+33 1 23 45 67 89</p>
-                                </div>
+                                <div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-elysium-gold"><i data-lucide="phone" class="w-5 h-5"></i></div>
+                                <div class="ml-6"><p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Téléphone</p><p class="font-bold text-xl">+33 1 23 45 67 89</p></div>
                             </div>
-
                             <div class="flex items-center group">
-                                <div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-elysium-gold group-hover:border-elysium-gold transition">
-                                    <i data-lucide="mail" class="w-5 h-5"></i>
-                                </div>
-                                <div class="ml-6">
-                                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Email</p>
-                                    <p class="font-bold text-xl">contact@elysiumscreens.fr</p>
-                                </div>
+                                <div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-elysium-gold"><i data-lucide="mail" class="w-5 h-5"></i></div>
+                                <div class="ml-6"><p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Email</p><p class="font-bold text-xl">contact@elysiumscreens.fr</p></div>
                             </div>
-                            
                             <div class="flex items-center group">
-                                <div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-elysium-gold group-hover:border-elysium-gold transition">
-                                    <i data-lucide="map-pin" class="w-5 h-5"></i>
-                                </div>
-                                <div class="ml-6">
-                                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Showroom</p>
-                                    <p class="font-bold text-xl">123 Avenue des Champs-Élysées, 75008 Paris</p>
-                                </div>
+                                <div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-elysium-gold"><i data-lucide="map-pin" class="w-5 h-5"></i></div>
+                                <div class="ml-6"><p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Showroom</p><p class="font-bold text-xl">123 Avenue des Champs-Élysées, 75008 Paris</p></div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="bg-zinc-900/50 p-10 border border-zinc-800 reveal-on-scroll" style="transition-delay: 200ms;">
+                    <div class="bg-zinc-900/50 p-10 border border-zinc-800 reveal-on-scroll">
                         <form onsubmit="event.preventDefault(); alert('Merci !');">
                             <div class="grid grid-cols-2 gap-6 mb-6">
-                                <div class="space-y-2">
-                                    <label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Prénom</label>
-                                    <input type="text" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Nom</label>
-                                    <input type="text" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition">
-                                </div>
+                                <div class="space-y-2"><label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Prénom</label><input type="text" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></div>
+                                <div class="space-y-2"><label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Nom</label><input type="text" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></div>
                             </div>
-                            <div class="space-y-2 mb-6">
-                                <label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Email</label>
-                                <input type="email" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition">
-                            </div>
-                            <div class="space-y-2 mb-8">
-                                <label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Message</label>
-                                <textarea rows="4" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></textarea>
-                            </div>
-                            <button class="w-full bg-white text-black font-bold uppercase tracking-widest py-5 hover:bg-elysium-gold hover:text-white transition duration-300">
-                                Envoyer
-                            </button>
+                            <div class="space-y-2 mb-6"><label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Email</label><input type="email" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></div>
+                            <div class="space-y-2 mb-8"><label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Message</label><textarea rows="4" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></textarea></div>
+                            <button class="w-full bg-white text-black font-bold uppercase tracking-widest py-5 hover:bg-elysium-gold hover:text-white transition duration-300">Envoyer</button>
                         </form>
                     </div>
                 </div>
@@ -595,72 +600,44 @@
     <footer class="bg-black text-white pt-20 pb-8 border-t border-zinc-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-                
-                <!-- Col 1: Brand -->
                 <div class="space-y-6">
-                    <img src="https://i.imgur.com/Xx8D9E0.png" 
-                         alt="Elysium Footer" 
-                         class="h-10 w-auto object-contain">
-                    <p class="text-gray-500 text-sm leading-relaxed">
-                        L'excellence en matière d'écrans de projection. Chaque détail est pensé pour une expérience visuelle incomparable.
-                    </p>
+                    <img src="https://i.imgur.com/Xx8D9E0.png" alt="Elysium Footer" class="h-10 w-auto object-contain">
+                    <p class="text-gray-500 text-sm leading-relaxed">L'excellence en matière d'écrans de projection. Chaque détail est pensé pour une expérience visuelle incomparable.</p>
                     <div class="flex space-x-4 pt-2">
                         <a href="#" class="text-gray-400 hover:text-elysium-gold transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
                         <a href="#" class="text-gray-400 hover:text-elysium-gold transition"><i data-lucide="facebook" class="w-5 h-5"></i></a>
                         <a href="#" class="text-gray-400 hover:text-elysium-gold transition"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
                     </div>
                 </div>
-
-                <!-- Col 2: Navigation -->
                 <div>
                     <h4 class="text-xs font-bold uppercase tracking-widest text-white mb-6">Navigation</h4>
                     <ul class="space-y-4 text-sm text-gray-500">
                         <li><a href="#" onclick="navigateTo('home')" class="hover:text-elysium-gold transition">Accueil</a></li>
-                        <li><a href="#" onclick="navigateTo('models')" class="hover:text-elysium-gold transition">Edge|One</a></li>
-                        <li><a href="#" onclick="navigateTo('models')" class="hover:text-elysium-gold transition">Zenith</a></li>
+                        <li><a href="#" onclick="navigateTo('model-edge-one')" class="hover:text-elysium-gold transition">Edge|One</a></li>
+                        <li><a href="#" onclick="navigateTo('model-zenith')" class="hover:text-elysium-gold transition">Zenith</a></li>
                         <li><a href="#" onclick="navigateToHomeSection('fabrics-section')" class="hover:text-elysium-gold transition">Toiles</a></li>
-                        <li><a href="#" onclick="navigateTo('contact')" class="hover:text-elysium-gold transition">À propos</a></li>
                         <li><a href="#" onclick="navigateTo('contact')" class="hover:text-elysium-gold transition">Contact</a></li>
                     </ul>
                 </div>
-
-                <!-- Col 3: Nos Gammes -->
                 <div>
                     <h4 class="text-xs font-bold uppercase tracking-widest text-white mb-6">Nos Gammes</h4>
                     <ul class="space-y-4 text-sm text-gray-500">
-                        <li><a href="#" onclick="navigateTo('models')" class="hover:text-elysium-gold transition">Edge|One - Cadre Ultra-Fin</a></li>
-                        <li><a href="#" onclick="navigateTo('models')" class="hover:text-elysium-gold transition">Zenith - Motorisé de Sol</a></li>
-                        <li><a href="#" onclick="navigateToHomeSection('fabrics-section')" class="hover:text-elysium-gold transition">Toiles Disponibles</a></li>
+                        <li><a href="#" onclick="navigateTo('model-edge-one')" class="hover:text-elysium-gold transition">Edge|One - Cadre Ultra-Fin</a></li>
+                        <li><a href="#" onclick="navigateTo('model-zenith')" class="hover:text-elysium-gold transition">Zenith - Motorisé de Sol</a></li>
                     </ul>
                 </div>
-
-                <!-- Col 4: Contact -->
                 <div>
                     <h4 class="text-xs font-bold uppercase tracking-widest text-white mb-6">Contact</h4>
                     <ul class="space-y-4 text-sm text-gray-500">
-                        <li class="flex items-start">
-                            <i data-lucide="map-pin" class="w-4 h-4 mt-1 mr-3 text-elysium-gold"></i>
-                            <span>123 Avenue des Champs-Élysées<br>75008 Paris, France</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i data-lucide="phone" class="w-4 h-4 mr-3 text-elysium-gold"></i>
-                            <span>+33 1 23 45 67 89</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i data-lucide="mail" class="w-4 h-4 mr-3 text-elysium-gold"></i>
-                            <span>contact@elysiumscreens.fr</span>
-                        </li>
+                        <li class="flex items-start"><i data-lucide="map-pin" class="w-4 h-4 mt-1 mr-3 text-elysium-gold"></i><span>123 Avenue des Champs-Élysées<br>75008 Paris, France</span></li>
+                        <li class="flex items-center"><i data-lucide="phone" class="w-4 h-4 mr-3 text-elysium-gold"></i><span>+33 1 23 45 67 89</span></li>
+                        <li class="flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-3 text-elysium-gold"></i><span>contact@elysiumscreens.fr</span></li>
                     </ul>
                 </div>
             </div>
-
-            <!-- Bottom Bar -->
             <div class="border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
                 <p>© 2024 ELYSIUM Screens. Tous droits réservés.</p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="#" class="hover:text-white transition">Mentions légales</a>
-                    <a href="#" class="hover:text-white transition">Politique de confidentialité</a>
-                </div>
+                <div class="flex space-x-6 mt-4 md:mt-0"><a href="#" class="hover:text-white transition">Mentions légales</a><a href="#" class="hover:text-white transition">Politique de confidentialité</a></div>
             </div>
         </div>
     </footer>
@@ -669,7 +646,6 @@
     <script>
         lucide.createIcons();
 
-        // Gestion de la Navbar au scroll
         window.addEventListener('scroll', () => {
             const header = document.getElementById('main-header');
             if (window.scrollY > 50) {
@@ -681,10 +657,8 @@
             }
         });
 
-        // Navigation
         function navigateTo(pageId) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.remove('active');
             });
@@ -693,12 +667,10 @@
                 target.classList.add('active');
                 setTimeout(initIntersectionObserver, 100);
             }
-            
             setTimeout(() => lucide.createIcons(), 100);
             document.getElementById('mobile-menu').classList.add('hidden');
         }
 
-        // Nouvelle fonction pour naviguer vers la home ET scroller
         function navigateToHomeSection(sectionId) {
             navigateTo('home');
             setTimeout(() => {
@@ -720,41 +692,26 @@
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
 
-        // Calculateur de Dimensionnement (LOGIQUE "DOUCE")
         const slider = document.getElementById('distance-slider');
         const displayDistance = document.getElementById('distance-display');
         const resultInches = document.getElementById('result-inches');
         const resultCm = document.getElementById('result-cm');
-
-        // Formule: Distance (m) / 1.44 = Base Image (m) (approx THX 40 degree viewing angle)
         
         function updateCalculator() {
             const distanceM = parseFloat(slider.value);
             displayDistance.textContent = distanceM.toFixed(1) + "m";
-
-            // Calcul Base Image (cm) - Ratio confort
             const ratio = 1.44; 
             const baseCm = Math.round((distanceM * 100) / ratio);
-
-            // Calcul Diagonale (Pouces) 16:9
             const diagInches = Math.round(baseCm / 2.214);
-
             resultCm.textContent = baseCm + "cm";
             resultInches.textContent = diagInches + '"';
         }
 
         slider.addEventListener('input', updateCalculator);
-        // Init
         updateCalculator();
 
-        // INTERSECTION OBSERVER POUR ANIMATIONS
         function initIntersectionObserver() {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -762,13 +719,11 @@
                     }
                 });
             }, observerOptions);
-
             const revealElements = document.querySelectorAll('.reveal-on-scroll');
             revealElements.forEach(el => observer.observe(el));
         }
 
         document.addEventListener('DOMContentLoaded', initIntersectionObserver);
-
     </script>
 </body>
 </html>

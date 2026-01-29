@@ -31,6 +31,8 @@
                     animation: {
                         'shine': 'shine 6s linear infinite',
                         'luxury-drift': 'gradientBG 15s ease infinite',
+                        'dropdown-slide': 'dropdownSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         shine: {
@@ -41,6 +43,10 @@
                             '0%': { backgroundPosition: '0% 50%' },
                             '50%': { backgroundPosition: '100% 50%' },
                             '100%': { backgroundPosition: '0% 50%' },
+                        },
+                        dropdownSlide: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px) translateX(-50%)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) translateX(-50%)' },
                         }
                     }
                 }
@@ -92,15 +98,9 @@
             animation: shine 5s linear infinite;
         }
 
-        /* Animation de fond luxe */
-        .luxury-bg {
-            background: linear-gradient(-45deg, #050505, #1a1a1a, #0a0a0a, #000000);
-            background-size: 400% 400%;
-        }
-
-        /* Dropdown Menu */
         .dropdown:hover .dropdown-menu {
             display: block;
+            animation: dropdown-slide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         /* Slider Custom Style */
@@ -120,6 +120,34 @@
             background-color: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(197, 160, 89, 0.1);
         }
+
+        /* Animations spécifiques page Toiles */
+        .bulb-glow { transition: all 0.5s ease; }
+        .sound-wave {
+            display: inline-block;
+            width: 3px;
+            height: 10px;
+            background-color: #C5A059;
+            margin: 0 2px;
+            animation: wave 1s infinite ease-in-out;
+        }
+        @keyframes wave {
+            0%, 100% { height: 10px; }
+            50% { height: 20px; }
+        }
+        .projector-beam {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 60px solid rgba(197, 160, 89, 0.3);
+            transform-origin: top center;
+            animation: beam 3s infinite alternate;
+        }
+        @keyframes beam {
+            0% { opacity: 0.3; transform: scaleY(1); }
+            100% { opacity: 0.6; transform: scaleY(1.2); }
+        }
     </style>
 </head>
 <body class="font-sans antialiased min-h-screen flex flex-col">
@@ -128,31 +156,28 @@
     <header id="main-header" class="fixed w-full z-50 transition-all duration-300 glass-nav h-24 flex items-center">
         <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
-                <!-- Logo -->
                 <div class="flex-shrink-0 cursor-pointer" onclick="navigateTo('home')">
                     <img src="https://i.imgur.com/Xx8D9E0.png" alt="Elysium Screens" class="h-14 w-auto object-contain transition transform hover:scale-105 duration-300">
                 </div>
 
-                <!-- Desktop Menu -->
                 <nav class="hidden md:flex space-x-10 items-center">
                     <button onclick="navigateTo('home')" class="text-white hover:text-elysium-gold font-bold uppercase tracking-widest text-xs transition duration-300">Accueil</button>
                     
-                    <!-- Dropdown Modèles -->
                     <div class="relative dropdown group h-24 flex items-center">
-                        <button class="text-white group-hover:text-elysium-gold font-medium uppercase tracking-widest text-xs transition duration-300 flex items-center">
-                            Modèles <i data-lucide="chevron-down" class="w-3 h-3 ml-1"></i>
+                        <button class="text-white group-hover:text-elysium-gold font-medium uppercase tracking-widest text-xs transition duration-300 flex items-center h-full">
+                            Modèles <i data-lucide="chevron-down" class="w-3 h-3 ml-1 transition-transform group-hover:rotate-180"></i>
                         </button>
-                        <div class="dropdown-menu absolute hidden top-20 left-1/2 transform -translate-x-1/2 w-48 bg-black/95 border border-zinc-800 shadow-xl rounded-sm pt-2">
-                            <a onclick="navigateTo('model-edge-one')" class="block px-6 py-4 text-xs font-bold text-white hover:text-elysium-gold hover:bg-zinc-900 uppercase tracking-widest transition cursor-pointer">Edge|One</a>
-                            <a onclick="navigateTo('model-zenith')" class="block px-6 py-4 text-xs font-bold text-white hover:text-elysium-gold hover:bg-zinc-900 uppercase tracking-widest transition cursor-pointer border-t border-zinc-800">Zenith</a>
+                        <div class="dropdown-menu absolute hidden top-20 left-1/2 w-56 bg-black/95 border border-zinc-800 shadow-2xl rounded-sm pt-2 origin-top">
+                            <a onclick="navigateTo('model-edge-one')" class="block px-6 py-4 text-xs font-bold text-white hover:text-elysium-gold hover:bg-zinc-900/50 uppercase tracking-widest transition cursor-pointer">Edge|One</a>
+                            <a onclick="navigateTo('model-zenith')" class="block px-6 py-4 text-xs font-bold text-white hover:text-elysium-gold hover:bg-zinc-900/50 uppercase tracking-widest transition cursor-pointer border-t border-zinc-800">Zenith</a>
                         </div>
                     </div>
 
-                    <button onclick="navigateToHomeSection('fabrics-section')" class="text-white hover:text-elysium-gold font-medium uppercase tracking-widest text-xs transition duration-300">Toiles</button>
+                    <button onclick="navigateTo('fabrics-page')" class="text-white hover:text-elysium-gold font-medium uppercase tracking-widest text-xs transition duration-300">Toiles</button>
+                    <button onclick="navigateTo('about')" class="text-white hover:text-elysium-gold font-medium uppercase tracking-widest text-xs transition duration-300">À propos</button>
                     <button onclick="navigateTo('contact')" class="text-white hover:text-elysium-gold font-medium uppercase tracking-widest text-xs transition duration-300">Contact</button>
                 </nav>
 
-                <!-- Icons -->
                 <div class="flex items-center space-x-6 text-white">
                     <button class="hover:text-elysium-gold transition hover:scale-110 duration-200"><i data-lucide="search" class="w-5 h-5"></i></button>
                     <button class="hover:text-elysium-gold transition relative hover:scale-110 duration-200">
@@ -165,13 +190,13 @@
             </div>
         </div>
         
-        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden absolute top-24 left-0 w-full bg-black/95 border-t border-gray-800 md:hidden">
             <div class="flex flex-col p-6 space-y-4 text-center">
                 <button onclick="navigateTo('home')" class="text-white text-sm uppercase tracking-widest py-2 font-bold">Accueil</button>
                 <button onclick="navigateTo('model-edge-one')" class="text-white text-sm uppercase tracking-widest py-2">Edge|One</button>
                 <button onclick="navigateTo('model-zenith')" class="text-white text-sm uppercase tracking-widest py-2">Zenith</button>
-                <button onclick="navigateToHomeSection('fabrics-section')" class="text-white text-sm uppercase tracking-widest py-2">Toiles</button>
+                <button onclick="navigateTo('fabrics-page')" class="text-white text-sm uppercase tracking-widest py-2">Toiles</button>
+                <button onclick="navigateTo('about')" class="text-white text-sm uppercase tracking-widest py-2">À propos</button>
                 <button onclick="navigateTo('contact')" class="text-white text-sm uppercase tracking-widest py-2">Contact</button>
             </div>
         </div>
@@ -189,541 +214,237 @@
                     <div class="absolute inset-0 bg-black/20"></div>
                     <div class="absolute inset-y-0 right-0 w-full md:w-3/5 bg-gradient-to-l from-black/90 via-black/60 to-transparent z-0"></div>
                 </div>
-
                 <div class="relative z-10 h-full flex items-center pb-12">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-end">
                         <div class="max-w-2xl reveal-on-scroll is-visible text-left">
                             <p class="text-elysium-gold uppercase tracking-[0.2em] text-xs font-bold mb-4">Excellence Visuelle</p>
-                            <h1 class="text-heavy text-5xl md:text-7xl text-white mb-6 leading-tight">
-                                L'Art de la <br> <span class="text-shine">Projection</span>
-                            </h1>
-                            <p class="text-gray-200 text-lg mb-10 text-light-custom leading-relaxed max-w-lg">
-                                Découvrez notre collection d'écrans de projection haut de gamme, conçus pour transformer chaque visionnage en une expérience immersive exceptionnelle.
-                            </p>
+                            <h1 class="text-heavy text-5xl md:text-7xl text-white mb-6 leading-tight">L'Art de la <br><span class="text-shine">Projection</span></h1>
+                            <p class="text-gray-200 text-lg mb-10 text-light-custom leading-relaxed max-w-lg">Découvrez notre collection d'écrans de projection haut de gamme, conçus pour transformer chaque visionnage en une expérience immersive exceptionnelle.</p>
                             <div class="flex flex-row gap-4">
-                                <button onclick="scrollToSection('gammes-home')" class="bg-white text-black px-8 py-4 uppercase tracking-widest font-bold text-xs hover:bg-gray-200 transition duration-300 flex items-center transform hover:translate-x-1">
-                                    Découvrir nos écrans <i data-lucide="chevron-right" class="w-4 h-4 ml-2"></i>
-                                </button>
-                                <button onclick="navigateTo('contact')" class="border border-white text-white px-8 py-4 uppercase tracking-widest font-bold text-xs hover:bg-elysium-gold hover:border-elysium-gold hover:text-white transition duration-300">
-                                    Nous contacter
-                                </button>
+                                <button onclick="navigateTo('fabrics-page')" class="bg-white text-black px-8 py-4 uppercase tracking-widest font-bold text-xs hover:bg-gray-200 transition duration-300 flex items-center transform hover:translate-x-1">Découvrir nos toiles <i data-lucide="chevron-right" class="w-4 h-4 ml-2"></i></button>
+                                <button onclick="navigateTo('contact')" class="border border-white text-white px-8 py-4 uppercase tracking-widest font-bold text-xs hover:bg-elysium-gold hover:border-elysium-gold hover:text-white transition duration-300">Nous contacter</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- SECTION GAMMES (HOME) -->
-            <div id="gammes-home" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16 reveal-on-scroll">
-                    <span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-3">Nos Gammes</span>
-                    <h2 class="text-heavy text-4xl md:text-5xl text-elysium-text">Deux Solutions Premium</h2>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                    <!-- Edge|One Card -->
-                    <div class="group reveal-on-scroll" style="transition-delay: 100ms;">
-                        <div class="bg-white border-2 border-black h-64 flex items-center justify-center p-8 relative overflow-hidden transition-all duration-500 hover:shadow-2xl cursor-pointer" onclick="navigateTo('model-edge-one')">
-                             <img src="https://i.imgur.com/RkiY7FD.png" alt="Edge One" class="max-w-[280px] w-full relative z-10 transform group-hover:scale-105 transition duration-500">
-                             <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-white/20 opacity-0 group-hover:opacity-100 transition duration-500"></div>
-                        </div>
-                        <div class="bg-gray-50 p-10 border-t-0 border border-gray-100 transition-colors duration-300">
-                            <span class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">Cadre Ultra-Fin</span>
-                            <h3 class="text-2xl font-bold text-elysium-gold mb-4">Edge|One</h3>
-                            <p class="text-gray-600 mb-8 leading-relaxed text-sm text-light-custom">
-                                Écrans à cadre ultra-fin avec un choix de 5 toiles haute performance et 7 tailles disponibles de 90" à 160".
-                            </p>
-                            <button onclick="navigateTo('model-edge-one')" class="text-xs font-bold uppercase tracking-widest text-elysium-gold hover:text-black transition flex items-center gap-2 group-hover:gap-3">
-                                En savoir plus <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Zenith Card -->
-                    <div class="group reveal-on-scroll" style="transition-delay: 200ms;">
-                        <div class="bg-white border-2 border-black h-64 flex items-center justify-center p-8 relative overflow-hidden transition-all duration-500 hover:shadow-2xl cursor-pointer" onclick="navigateTo('model-zenith')">
-                            <img src="https://i.imgur.com/y2K7dif.png" alt="Zenith" class="max-w-[280px] w-full relative z-10 transform group-hover:scale-105 transition duration-500">
-                             <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-white/20 opacity-0 group-hover:opacity-100 transition duration-500"></div>
-                        </div>
-                        <div class="bg-gray-50 p-10 border-t-0 border border-gray-100 transition-colors duration-300">
-                            <span class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">Motorisé de Sol</span>
-                            <h3 class="text-2xl font-bold text-elysium-gold mb-4">Zenith</h3>
-                            <p class="text-gray-600 mb-8 leading-relaxed text-sm text-light-custom">
-                                Écrans motorisés de sol avec toile CLR optimisée pour projecteurs ultra courte focale.
-                            </p>
-                            <button onclick="navigateTo('model-zenith')" class="text-xs font-bold uppercase tracking-widest text-elysium-gold hover:text-black transition flex items-center gap-2 group-hover:gap-3">
-                                En savoir plus <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CALCULATEUR -->
-            <div class="bg-gray-50 py-20 border-b border-gray-200">
-                <div class="max-w-5xl mx-auto px-4 reveal-on-scroll">
-                    <div class="text-center mb-10">
-                        <h2 class="text-heavy text-3xl md:text-4xl text-elysium-text mb-4">Simulateur d'Immersion Cinéma</h2>
-                        <p class="text-gray-500 text-sm max-w-2xl mx-auto">Quelle taille choisir pour retrouver l'émotion de la salle de cinéma chez vous ?</p>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-xl p-8 md:p-12 border border-gray-100 relative overflow-hidden">
-                        <div class="flex flex-col md:flex-row items-center justify-between gap-12">
-                            <div class="w-full md:w-1/2 relative z-10">
-                                <div class="flex justify-between items-end mb-4">
-                                    <label class="text-sm uppercase tracking-widest text-gray-500 font-bold">Ma distance de visionnage</label>
-                                    <span class="text-2xl font-bold text-elysium-gold" id="distance-display">3.5m</span>
-                                </div>
-                                <input type="range" min="2" max="6" step="0.1" value="3.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" id="distance-slider">
-                                <div class="flex justify-between text-xs text-gray-400 mt-2"><span>2m</span><span>6m</span></div>
-                            </div>
-                            <div class="hidden md:block w-px h-24 bg-gray-200 relative z-10"></div>
-                            <div class="w-full md:w-1/2 flex flex-col items-center justify-center text-center relative z-10">
-                                <div class="mb-4">
-                                    <p class="text-xs uppercase tracking-widest text-gray-400 mb-1 font-bold">Recommandation Immersion</p>
-                                    <div class="flex items-baseline justify-center gap-2">
-                                        <div class="text-5xl text-heavy text-elysium-gold transition-all duration-300" id="result-inches">110"</div>
-                                        <span class="text-gray-400 text-sm">/</span>
-                                        <div class="text-3xl text-gray-600 font-bold transition-all duration-300" id="result-cm">243cm</div>
-                                    </div>
-                                    <p class="text-[10px] text-gray-400 mt-2 italic">Taille d'écran conseillée pour un effet cinéma</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-8 pt-6 border-t border-gray-100 bg-blue-50/50 -mx-8 -mb-12 p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
-                            <div class="flex items-start gap-4">
-                                <div class="bg-elysium-gold/20 p-2 rounded-full text-elysium-gold mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></div>
-                                <div>
-                                    <h4 class="text-sm font-bold text-gray-800 mb-1">Pas de panique !</h4>
-                                    <p class="text-xs text-gray-600 leading-relaxed max-w-lg">Ce résultat est une recommandation pour une immersion type salle de cinéma (angle de 40°). <strong>Votre projecteur permet probablement une image plus petite ou plus grande.</strong></p>
-                                </div>
-                            </div>
-                            <button onclick="navigateTo('contact')" class="flex-shrink-0 bg-elysium-dark text-white px-6 py-3 text-xs font-bold uppercase tracking-widest hover:bg-elysium-gold transition rounded-sm shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-200">Vérifier ma compatibilité</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FEATURES RASSURANCE -->
-            <div class="bg-elysium-dark py-16 reveal-on-scroll">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div class="text-center group">
-                            <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300"><i data-lucide="award" class="w-8 h-8"></i></div>
-                            <h3 class="text-white font-bold text-lg mb-2">Qualité Premium</h3>
-                            <p class="text-gray-500 text-xs leading-relaxed px-4">Matériaux haut de gamme et fabrication artisanale.</p>
-                        </div>
-                        <div class="text-center group">
-                            <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300"><i data-lucide="truck" class="w-8 h-8"></i></div>
-                            <h3 class="text-white font-bold text-lg mb-2">Livraison Gratuite</h3>
-                            <p class="text-gray-500 text-xs leading-relaxed px-4">Livraison offerte en France métropolitaine.</p>
-                        </div>
-                        <div class="text-center group">
-                            <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300"><i data-lucide="shield-check" class="w-8 h-8"></i></div>
-                            <h3 class="text-white font-bold text-lg mb-2">Garantie 5 Ans</h3>
-                            <p class="text-gray-500 text-xs leading-relaxed px-4">Garantie 5 ans pièces et main d'œuvre.</p>
-                        </div>
-                        <div class="text-center group">
-                            <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300"><i data-lucide="headset" class="w-8 h-8"></i></div>
-                            <h3 class="text-white font-bold text-lg mb-2">Support Expert</h3>
-                            <p class="text-gray-500 text-xs leading-relaxed px-4">Accompagnement personnalisé.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TOILES -->
-            <div id="fabrics-section" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white">
-                <div class="text-center mb-16 reveal-on-scroll">
-                    <span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-3">Nos Toiles</span>
-                    <h2 class="text-heavy text-4xl md:text-5xl text-elysium-text mb-4">6 Toiles Haute Performance</h2>
-                    <p class="text-gray-500 text-sm">Chaque toile est optimisée pour un usage spécifique</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 100ms;">
-                        <img src="https://i.imgur.com/SB1sDNU.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="PureView">
-                        <div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
-                            <h3 class="text-elysium-gold font-bold text-xl mb-2">PureView</h3>
-                            <p class="text-white text-sm font-medium">Gain 1.1 • Pour pièce dédiée</p>
-                        </div>
-                    </div>
-                    <div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 150ms;">
-                        <img src="https://i.imgur.com/jAPxpj0.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Aurora Pro ALR">
-                        <div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
-                            <h3 class="text-elysium-gold font-bold text-xl mb-2">Aurora Pro ALR</h3>
-                            <p class="text-white text-sm font-medium">Gain 0.8 • Spécial journée</p>
-                        </div>
-                    </div>
-                    <div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 200ms;">
-                        <img src="https://i.imgur.com/HvS2Uwv.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="SonicWeave">
-                        <div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
-                            <h3 class="text-elysium-gold font-bold text-xl mb-2">SonicWeave</h3>
-                            <p class="text-white text-sm font-medium">Tissée 8K • Trans-sonore pure</p>
-                        </div>
-                    </div>
-                    <div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 250ms;">
-                        <img src="https://i.imgur.com/sGPZg7n.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Apex Fresnel">
-                        <div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
-                            <h3 class="text-elysium-gold font-bold text-xl mb-2">Apex Fresnel</h3>
-                            <p class="text-white text-sm font-medium">Gain 1.6 • Luminosité boostée</p>
-                        </div>
-                    </div>
-                    <div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 300ms;">
-                        <img src="https://i.imgur.com/5ANxOlY.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Eclipse UST">
-                        <div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
-                            <h3 class="text-elysium-gold font-bold text-xl mb-2">Eclipse UST</h3>
-                            <p class="text-white text-sm font-medium">Contraste extrême pour Focale Courte</p>
-                        </div>
-                    </div>
-                    <div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg bg-[#3a3a3a] reveal-on-scroll" style="transition-delay: 350ms;">
-                        <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-black/20 opacity-50"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
-                            <h3 class="text-elysium-gold font-bold text-xl mb-2">Slate Grey</h3>
-                            <p class="text-white text-sm font-medium">Niveaux de noirs renforcés</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- (Contenu accueil inchangé) -->
+            <div id="gammes-home" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="text-center mb-16 reveal-on-scroll"><span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-3">Nos Gammes</span><h2 class="text-heavy text-4xl md:text-5xl text-elysium-text">Deux Solutions Premium</h2></div><div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12"><div class="group reveal-on-scroll" style="transition-delay: 100ms;"><div class="bg-white border-2 border-black h-64 flex items-center justify-center p-8 relative overflow-hidden transition-all duration-500 hover:shadow-2xl cursor-pointer" onclick="navigateTo('model-edge-one')"><img src="https://i.imgur.com/RkiY7FD.png" alt="Edge One" class="max-w-[280px] w-full relative z-10 transform group-hover:scale-105 transition duration-500"><div class="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-white/20 opacity-0 group-hover:opacity-100 transition duration-500"></div></div><div class="bg-gray-50 p-10 border-t-0 border border-gray-100 transition-colors duration-300"><span class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">Cadre Ultra-Fin</span><h3 class="text-2xl font-bold text-elysium-gold mb-4">Edge|One</h3><button onclick="navigateTo('model-edge-one')" class="text-xs font-bold uppercase tracking-widest text-elysium-gold hover:text-black transition flex items-center gap-2">En savoir plus <i data-lucide="arrow-right" class="w-4 h-4"></i></button></div></div><div class="group reveal-on-scroll" style="transition-delay: 200ms;"><div class="bg-white border-2 border-black h-64 flex items-center justify-center p-8 relative overflow-hidden transition-all duration-500 hover:shadow-2xl cursor-pointer" onclick="navigateTo('model-zenith')"><img src="https://i.imgur.com/y2K7dif.png" alt="Zenith" class="max-w-[280px] w-full relative z-10 transform group-hover:scale-105 transition duration-500"><div class="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-white/20 opacity-0 group-hover:opacity-100 transition duration-500"></div></div><div class="bg-gray-50 p-10 border-t-0 border border-gray-100 transition-colors duration-300"><span class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">Motorisé de Sol</span><h3 class="text-2xl font-bold text-elysium-gold mb-4">Zenith</h3><button onclick="navigateTo('model-zenith')" class="text-xs font-bold uppercase tracking-widest text-elysium-gold hover:text-black transition flex items-center gap-2">En savoir plus <i data-lucide="arrow-right" class="w-4 h-4"></i></button></div></div></div></div><div class="bg-gray-50 py-20 border-b border-gray-200"><div class="max-w-5xl mx-auto px-4 reveal-on-scroll"><div class="text-center mb-10"><h2 class="text-heavy text-3xl md:text-4xl text-elysium-text mb-4">Simulateur d'Immersion Cinéma</h2><p class="text-gray-500 text-sm max-w-2xl mx-auto">Quelle taille choisir pour retrouver l'émotion de la salle de cinéma chez vous ?</p></div><div class="bg-white rounded-xl shadow-xl p-8 md:p-12 border border-gray-100 relative overflow-hidden"><div class="flex flex-col md:flex-row items-center justify-between gap-12"><div class="w-full md:w-1/2 relative z-10"><div class="flex justify-between items-end mb-4"><label class="text-sm uppercase tracking-widest text-gray-500 font-bold">Ma distance de visionnage</label><span class="text-2xl font-bold text-elysium-gold" id="distance-display">3.5m</span></div><input type="range" min="2" max="6" step="0.1" value="3.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" id="distance-slider"><div class="flex justify-between text-xs text-gray-400 mt-2"><span>2m</span><span>6m</span></div></div><div class="hidden md:block w-px h-24 bg-gray-200 relative z-10"></div><div class="w-full md:w-1/2 flex flex-col items-center justify-center text-center relative z-10"><div class="mb-4"><p class="text-xs uppercase tracking-widest text-gray-400 mb-1 font-bold">Recommandation Immersion</p><div class="flex items-baseline justify-center gap-2"><div class="text-5xl text-heavy text-elysium-gold transition-all duration-300" id="result-inches">110"</div><span class="text-gray-400 text-sm">/</span><div class="text-3xl text-gray-600 font-bold transition-all duration-300" id="result-cm">243cm</div></div><p class="text-[10px] text-gray-400 mt-2 italic">Taille d'écran conseillée pour un effet cinéma</p></div></div></div><div class="mt-8 pt-6 border-t border-gray-100 bg-blue-50/50 -mx-8 -mb-12 p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10"><div class="flex items-start gap-4"><div class="bg-elysium-gold/20 p-2 rounded-full text-elysium-gold mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></div><div><h4 class="text-sm font-bold text-gray-800 mb-1">Pas de panique !</h4><p class="text-xs text-gray-600 leading-relaxed max-w-lg">Ce résultat est une recommandation pour une immersion type salle de cinéma (angle de 40°). <strong>Votre projecteur permet probablement une image plus petite ou plus grande.</strong></p></div></div><button onclick="navigateTo('contact')" class="flex-shrink-0 bg-elysium-dark text-white px-6 py-3 text-xs font-bold uppercase tracking-widest hover:bg-elysium-gold transition rounded-sm shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-200">Vérifier ma compatibilité</button></div></div></div></div><div class="bg-elysium-dark py-16 reveal-on-scroll"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"><div class="text-center group"><div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300"><i data-lucide="award" class="w-8 h-8"></i></div><h3 class="text-white font-bold text-lg mb-2">Qualité Premium</h3><p class="text-gray-500 text-xs leading-relaxed px-4">Matériaux haut de gamme et fabrication artisanale.</p></div><div class="text-center group"><div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300"><i data-lucide="truck" class="w-8 h-8"></i></div><h3 class="text-white font-bold text-lg mb-2">Livraison Gratuite</h3><p class="text-gray-500 text-xs leading-relaxed px-4">Livraison offerte en France métropolitaine.</p></div><div class="text-center group"><div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300"><i data-lucide="shield-check" class="w-8 h-8"></i></div><h3 class="text-white font-bold text-lg mb-2">Garantie 5 Ans</h3><p class="text-gray-500 text-xs leading-relaxed px-4">Garantie 5 ans pièces et main d'œuvre.</p></div><div class="text-center group"><div class="w-16 h-16 mx-auto mb-6 rounded-full border border-elysium-gold/30 flex items-center justify-center text-elysium-gold group-hover:bg-elysium-gold group-hover:text-black transition duration-300"><i data-lucide="headset" class="w-8 h-8"></i></div><h3 class="text-white font-bold text-lg mb-2">Support Expert</h3><p class="text-gray-500 text-xs leading-relaxed px-4">Accompagnement personnalisé.</p></div></div></div></div><div id="fabrics-section" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white"><div class="text-center mb-16 reveal-on-scroll"><span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-3">Nos Toiles</span><h2 class="text-heavy text-4xl md:text-5xl text-elysium-text mb-4">6 Toiles Haute Performance</h2><p class="text-gray-500 text-sm">Chaque toile est optimisée pour un usage spécifique</p></div><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 100ms;"><img src="https://i.imgur.com/nw5ISIU.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="PureView"><div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div><div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 transform transition-transform duration-500 group-hover:-translate-y-2"><h3 class="text-elysium-gold font-bold text-xl mb-2">PureView</h3><p class="text-white text-sm font-medium opacity-80 group-hover:opacity-100">Gain 1.1 • Pour pièce dédiée</p></div></div><div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 150ms;"><img src="https://i.imgur.com/meMjTUZ.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Aurora Pro ALR"><div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div><div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 transform transition-transform duration-500 group-hover:-translate-y-2"><h3 class="text-elysium-gold font-bold text-xl mb-2">Aurora Pro ALR</h3><p class="text-white text-sm font-medium opacity-80 group-hover:opacity-100">Gain 0.8 • Spécial journée</p></div></div><div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 200ms;"><img src="https://i.imgur.com/glpseed.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="SonicWeave"><div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div><div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 transform transition-transform duration-500 group-hover:-translate-y-2"><h3 class="text-elysium-gold font-bold text-xl mb-2">SonicWeave</h3><p class="text-white text-sm font-medium opacity-80 group-hover:opacity-100">Tissée 8K • Trans-sonore pure</p></div></div><div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 250ms;"><img src="https://i.imgur.com/nw5ISIU.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Apex Fresnel"><div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div><div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 transform transition-transform duration-500 group-hover:-translate-y-2"><h3 class="text-elysium-gold font-bold text-xl mb-2">Apex Fresnel</h3><p class="text-white text-sm font-medium opacity-80 group-hover:opacity-100">Gain 1.6 • Luminosité boostée</p></div></div><div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg reveal-on-scroll" style="transition-delay: 300ms;"><img src="https://i.imgur.com/i0p8B8n.jpeg" class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="Eclipse UST"><div class="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors duration-300"></div><div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 transform transition-transform duration-500 group-hover:-translate-y-2"><h3 class="text-elysium-gold font-bold text-xl mb-2">Eclipse UST</h3><p class="text-white text-sm font-medium opacity-80 group-hover:opacity-100">Contraste extrême pour Focale Courte</p></div></div><div class="relative group h-64 overflow-hidden rounded-lg cursor-pointer shadow-lg bg-[#3a3a3a] reveal-on-scroll" style="transition-delay: 350ms;"><div class="absolute inset-0 bg-gradient-to-br from-white/5 to-black/20 opacity-50"></div><div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 transform transition-transform duration-500 group-hover:-translate-y-2"><h3 class="text-elysium-gold font-bold text-xl mb-2">Slate Grey</h3><p class="text-white text-sm font-medium opacity-80 group-hover:opacity-100">Niveaux de noirs renforcés</p></div></div></div></div>
         </section>
 
-        <!-- ==================== NOUVELLE PAGE: EDGE ONE ==================== -->
-        <section id="model-edge-one" class="page-section min-h-screen bg-white">
-            <!-- Hero with Animated Luxury Background -->
+        <!-- ==================== PAGES: TOILES, MODEL-EDGE-ONE, MODEL-ZENITH, CONTACT (Inchangées) ==================== -->
+        <section id="fabrics-page" class="page-section min-h-screen bg-white pt-24"><div class="py-16 text-center max-w-4xl mx-auto px-4"><span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-3">Technologies</span><h1 class="text-heavy text-4xl md:text-5xl text-elysium-text mb-6">Nos Toiles Haute Performance</h1><p class="text-gray-500">Chaque toile ELYSIUM est conçue pour un usage spécifique, optimisant la qualité d'image selon votre environnement et votre projecteur.</p></div><div class="bg-gray-50 py-16 mb-24 border-y border-gray-100"><div class="max-w-6xl mx-auto px-4 text-center"><h2 class="text-2xl font-bold mb-12">Comment Choisir ?</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-12"><div class="bg-white p-8 rounded-lg shadow-sm"><div class="h-20 flex items-center justify-center mb-6"><i data-lucide="lightbulb" id="bulb-icon" class="w-12 h-12 text-gray-300 bulb-glow"></i></div><h3 class="font-bold text-lg mb-2">Luminosité Ambiante</h3><p id="light-text" class="text-sm text-elysium-gold font-bold mb-6 h-6">Salle obscure</p><input type="range" min="0" max="2" step="1" value="0" id="light-slider" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"><div class="flex justify-between text-[10px] text-gray-400 mt-2 uppercase tracking-wide"><span>Nuit</span><span>Journée</span></div></div><div class="bg-white p-8 rounded-lg shadow-sm"><div class="h-20 flex items-center justify-center mb-6 relative"><div id="projector-beam" class="absolute top-10 opacity-0 projector-beam"></div><i data-lucide="projector" class="w-12 h-12 text-elysium-gold relative z-10"></i></div><h3 class="font-bold text-lg mb-2">Type de Projecteur</h3><div class="flex justify-center gap-4 mt-6"><button class="px-4 py-2 text-xs font-bold border border-gray-300 rounded hover:bg-black hover:text-white transition focus:bg-black focus:text-white" onclick="triggerBeam()">Standard</button><button class="px-4 py-2 text-xs font-bold border border-gray-300 rounded hover:bg-black hover:text-white transition focus:bg-black focus:text-white" onclick="triggerBeam()">UST (Laser TV)</button></div></div><div class="bg-white p-8 rounded-lg shadow-sm"><div class="h-20 flex items-center justify-center mb-6 gap-1" id="sound-waves"><i data-lucide="speaker" class="w-12 h-12 text-gray-800 mr-2"></i><div class="sound-wave hidden"></div><div class="sound-wave hidden" style="animation-delay: 0.1s"></div><div class="sound-wave hidden" style="animation-delay: 0.2s"></div></div><h3 class="font-bold text-lg mb-2">Configuration Audio</h3><div class="flex justify-center items-center gap-3 mt-6"><span class="text-xs text-gray-500">Standard</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="audio-toggle" class="sr-only peer"><div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-elysium-gold"></div></label><span class="text-xs text-gray-500">Transparent</span></div></div></div></div></div><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 pb-24"><div class="flex flex-col md:flex-row items-center gap-12 reveal-on-scroll"><div class="md:w-1/2"><div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-elysium-gold mb-4"><i data-lucide="eye" class="w-6 h-6"></i></div><h2 class="text-3xl font-bold mb-2">Pureview</h2><p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Toile Blanche PVC Standard</p><span class="bg-orange-100 text-elysium-gold px-3 py-1 rounded text-xs font-bold mb-6 inline-block">Gain 1.1</span><ul class="space-y-3 text-sm text-gray-600 mb-8"><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Surface blanche mat uniforme</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Excellent rendu des couleurs</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Polyvalente et économique</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Idéale pour salles obscures</li></ul><div class="bg-gray-50 p-4 border-l-4 border-elysium-gold"><p class="text-xs font-bold text-gray-900">Usage idéal</p><p class="text-xs text-gray-500">Home cinema traditionnel, présentation professionnelle en salle noire.</p></div></div><div class="md:w-1/2"><img src="https://i.imgur.com/glpseed.jpeg" alt="Pureview Detail" class="rounded-lg shadow-xl w-full"></div></div><div class="flex flex-col md:flex-row-reverse items-center gap-12 reveal-on-scroll"><div class="md:w-1/2"><div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-elysium-gold mb-4"><i data-lucide="sun" class="w-6 h-6"></i></div><h2 class="text-3xl font-bold mb-2">Aurora Pro ALR</h2><p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Rejet de Lumière Ambiante</p><span class="bg-orange-100 text-elysium-gold px-3 py-1 rounded text-xs font-bold mb-6 inline-block">Gain 0.8</span><ul class="space-y-3 text-sm text-gray-600 mb-8"><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Rejet de la lumière ambiante (plafond/fenêtres)</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Contrastes renforcés (noirs profonds)</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Image nette en journée</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Angle de vision optimal</li></ul><div class="bg-gray-50 p-4 border-l-4 border-elysium-gold"><p class="text-xs font-bold text-gray-900">Usage idéal</p><p class="text-xs text-gray-500">Salons lumineux, pièces de vie avec fenêtres non occultées.</p></div></div><div class="md:w-1/2"><img src="https://i.imgur.com/meMjTUZ.jpeg" alt="Aurora Detail" class="rounded-lg shadow-xl w-full"></div></div><div class="flex flex-col md:flex-row items-center gap-12 reveal-on-scroll"><div class="md:w-1/2"><div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-elysium-gold mb-4"><i data-lucide="speaker" class="w-6 h-6"></i></div><h2 class="text-3xl font-bold mb-2">SonicWeave</h2><p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Toile Acoustique Tissée 8K</p><span class="bg-orange-100 text-elysium-gold px-3 py-1 rounded text-xs font-bold mb-6 inline-block">Atténuation < 0.5dB</span><ul class="space-y-3 text-sm text-gray-600 mb-8"><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Structure tissée compatible 8K</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Transparence sonore parfaite</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Aucun effet de moiré</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Enceintes invisibles derrière l'écran</li></ul><div class="bg-gray-50 p-4 border-l-4 border-elysium-gold"><p class="text-xs font-bold text-gray-900">Usage idéal</p><p class="text-xs text-gray-500">Salle de cinéma dédiée haut de gamme avec son immersif (mur du son).</p></div></div><div class="md:w-1/2"><img src="https://i.imgur.com/yLbBdYE.jpeg" alt="SonicWeave Detail" class="rounded-lg shadow-xl w-full"></div></div><div class="flex flex-col md:flex-row-reverse items-center gap-12 reveal-on-scroll"><div class="md:w-1/2"><div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-elysium-gold mb-4"><i data-lucide="layers" class="w-6 h-6"></i></div><h2 class="text-3xl font-bold mb-2">Apex ALR Standard</h2><p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Fresnel Haute Précision</p><span class="bg-orange-100 text-elysium-gold px-3 py-1 rounded text-xs font-bold mb-6 inline-block">Gain 1.6</span><ul class="space-y-3 text-sm text-gray-600 mb-8"><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Technologie Fresnel optique</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Luminosité amplifiée (x1.6)</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Rejet latéral de la lumière</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Pour projecteurs fond de salle (Focale Longue)</li></ul><div class="bg-gray-50 p-4 border-l-4 border-elysium-gold"><p class="text-xs font-bold text-gray-900">Usage idéal</p><p class="text-xs text-gray-500">Projecteurs longue focale faible luminosité ou environnement très lumineux.</p></div></div><div class="md:w-1/2"><img src="https://i.imgur.com/nw5ISIU.jpeg" alt="Apex Std Detail" class="rounded-lg shadow-xl w-full"></div></div><div class="flex flex-col md:flex-row items-center gap-12 reveal-on-scroll"><div class="md:w-1/2"><div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-elysium-gold mb-4"><i data-lucide="maximize" class="w-6 h-6"></i></div><h2 class="text-3xl font-bold mb-2">Apex ALR UST</h2><p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Fresnel Optimisé UST</p><span class="bg-orange-100 text-elysium-gold px-3 py-1 rounded text-xs font-bold mb-6 inline-block">Gain 1.6</span><ul class="space-y-3 text-sm text-gray-600 mb-8"><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Optimisé Ultra Courte Focale</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Rejet 98% lumière plafond</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Luminosité maximale de jour</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Structure semi-circulaire</li></ul><div class="bg-gray-50 p-4 border-l-4 border-elysium-gold"><p class="text-xs font-bold text-gray-900">Usage idéal</p><p class="text-xs text-gray-500">Projecteurs Laser TV (UST) en salon de jour.</p></div></div><div class="md:w-1/2"><img src="https://i.imgur.com/i0p8B8n.jpeg" alt="Apex UST Detail" class="rounded-lg shadow-xl w-full"></div></div><div class="flex flex-col md:flex-row-reverse items-center gap-12 reveal-on-scroll"><div class="md:w-1/2"><div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-elysium-gold mb-4"><i data-lucide="moon" class="w-6 h-6"></i></div><h2 class="text-3xl font-bold mb-2">Eclipse UST</h2><p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Contraste Extrême</p><span class="bg-orange-100 text-elysium-gold px-3 py-1 rounded text-xs font-bold mb-6 inline-block">Rejet Supérieur</span><ul class="space-y-3 text-sm text-gray-600 mb-8"><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Structure lenticulaire en dents de scie</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Noirs les plus profonds du marché</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Rejet lumière plafond absolu</li><li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-elysium-gold rounded-full"></div> Performance exceptionnelle en journée</li></ul><div class="bg-gray-50 p-4 border-l-4 border-elysium-gold"><p class="text-xs font-bold text-gray-900">Usage idéal</p><p class="text-xs text-gray-500">Le choix ultime pour les projecteurs UST en environnement mixte.</p></div></div><div class="md:w-1/2"><img src="https://i.imgur.com/5ANxOlY.jpeg" alt="Eclipse UST Detail" class="rounded-lg shadow-xl w-full"></div></div></div>
+        </section>
+
+        <!-- ==================== NOUVELLE PAGE: A PROPOS ==================== -->
+        <section id="about" class="page-section min-h-screen bg-white">
+            <!-- Hero A Propos -->
             <div class="relative h-[60vh] w-full overflow-hidden flex items-center justify-center">
-                <!-- Background Image -->
-                <img src="https://i.imgur.com/58rDTpZ.jpeg" alt="EdgeOne Background" class="absolute inset-0 w-full h-full object-cover z-0">
-                <!-- Overlay -->
-                <div class="absolute inset-0 bg-black/40 z-0"></div>
-                
-                <div class="text-center z-10 px-4">
-                    <img src="https://i.imgur.com/Xx8D9E0.png" alt="Logo" class="h-12 w-auto mx-auto mb-6 opacity-80">
-                    <h1 class="text-heavy text-5xl md:text-7xl text-white mb-2">Edge|One</h1>
-                    <p class="text-elysium-gold uppercase tracking-[0.3em] text-sm font-bold">Cadre Ultra-Fin</p>
+                <!-- Image Header À Propos -->
+                <img src="https://i.imgur.com/YUTQyyD.jpeg" alt="About Hero" class="absolute inset-0 w-full h-full object-cover z-0">
+                <div class="absolute inset-0 bg-black/50 z-0"></div>
+                <div class="text-center z-10 px-4 reveal-on-scroll is-visible">
+                    <p class="text-elysium-gold uppercase tracking-[0.3em] text-sm font-bold mb-4">Notre Histoire</p>
+                    <h1 class="text-heavy text-5xl md:text-7xl text-white mb-2">À Propos</h1>
+                    <p class="text-gray-200 text-lg font-light tracking-wide mt-4">L'excellence comme standard depuis 2009.</p>
                 </div>
             </div>
 
-            <!-- Block 1: Intro (Like screenshot 2) -->
+            <!-- Section Histoire & Chiffres (Fond Noir) -->
+            <div class="bg-elysium-dark py-24 relative overflow-hidden">
+                <!-- Background Image Overlay (Cinema Audience) -->
+                <div class="absolute inset-0 z-0 opacity-20">
+                    <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070" alt="Cinema Audience" class="w-full h-full object-cover grayscale">
+                </div>
+                
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="text-center mb-20 reveal-on-scroll">
+                        <span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-4">Notre Histoire</span>
+                        <h2 class="text-heavy text-4xl md:text-5xl text-white mb-8">L'Art de la Projection</h2>
+                        <p class="text-gray-400 max-w-3xl mx-auto leading-loose">
+                            Depuis plus de 15 ans, ELYSIUM Screens repousse les limites de l'expérience visuelle. Notre passion pour l'excellence nous guide dans la création d'écrans de projection exceptionnels, alliant innovation technique et design intemporel.
+                        </p>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-12 border-t border-white/10 pt-12 text-center reveal-on-scroll">
+                        <div>
+                            <div class="text-elysium-gold mb-2"><i data-lucide="award" class="w-8 h-8 mx-auto"></i></div>
+                            <div class="text-4xl font-bold text-white mb-1">15+</div>
+                            <div class="text-xs uppercase tracking-widest text-gray-500">Années d'expertise</div>
+                        </div>
+                        <div>
+                            <div class="text-elysium-gold mb-2"><i data-lucide="users" class="w-8 h-8 mx-auto"></i></div>
+                            <div class="text-4xl font-bold text-white mb-1">50K+</div>
+                            <div class="text-xs uppercase tracking-widest text-gray-500">Clients satisfaits</div>
+                        </div>
+                        <div>
+                            <div class="text-elysium-gold mb-2"><i data-lucide="globe" class="w-8 h-8 mx-auto"></i></div>
+                            <div class="text-4xl font-bold text-white mb-1">40+</div>
+                            <div class="text-xs uppercase tracking-widest text-gray-500">Pays livrés</div>
+                        </div>
+                        <div>
+                            <div class="text-elysium-gold mb-2"><i data-lucide="trending-up" class="w-8 h-8 mx-auto"></i></div>
+                            <div class="text-4xl font-bold text-white mb-1">98%</div>
+                            <div class="text-xs uppercase tracking-widest text-gray-500">Taux de satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Vision (Texte Gauche / Image Droite) -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
                 <div class="flex flex-col md:flex-row items-center gap-16">
-                    <div class="md:w-1/2">
-                        <span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-4">Cadre Ultra-Fin</span>
-                        <p class="text-gray-600 leading-loose mb-8">
-                            L'Edge|One incarne l'excellence en matière d'écrans à cadre fixe. Son design ultra-fin et épuré s'intègre parfaitement à votre intérieur tout en offrant une qualité d'image exceptionnelle.
-                        </p>
-                        <button onclick="navigateTo('contact')" class="bg-white text-black border border-black px-8 py-4 uppercase tracking-widest font-bold text-xs hover:bg-black hover:text-white transition duration-300">
-                            Demander un devis <i data-lucide="arrow-right" class="inline w-4 h-4 ml-2"></i>
-                        </button>
+                    <div class="md:w-1/2 reveal-on-scroll">
+                        <span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-4">Notre Vision</span>
+                        <h2 class="text-3xl font-medium text-black mb-8 leading-tight">Transformer Chaque Visionnage en Expérience</h2>
+                        <div class="space-y-6 text-gray-600 text-sm leading-loose">
+                            <p>
+                                Fondée en 2009 par une équipe d'ingénieurs passionnés de cinéma, ELYSIUM Screens est née d'une conviction simple : la qualité de l'écran est tout aussi importante que celle du projecteur.
+                            </p>
+                            <p>
+                                Aujourd'hui, nous collaborons avec les meilleurs fabricants et développons nos propres technologies brevetées pour offrir à nos clients une expérience visuelle incomparable.
+                            </p>
+                            <p>
+                                Chaque écran ELYSIUM est le fruit d'années de recherche, de tests rigoureux et d'un savoir-faire artisanal unique.
+                            </p>
+                        </div>
+                        <div class="mt-8 inline-block bg-elysium-dark text-white px-6 py-4">
+                            <span class="block text-3xl font-bold">2009</span>
+                            <span class="text-xs text-gray-400 uppercase tracking-widest">Année de création</span>
+                        </div>
                     </div>
-                    <div class="md:w-1/2">
-                        <img src="https://i.imgur.com/RkiY7FD.png" alt="Edge One Room" class="rounded shadow-2xl w-full">
+                    <div class="md:w-1/2 reveal-on-scroll">
+                        <!-- Placeholder pour l'image blob demandée -->
+                        <img src="https://i.imgur.com/FRHAFxw.jpeg" alt="Vision Home Cinema" class="w-full rounded shadow-2xl">
                     </div>
                 </div>
             </div>
 
-            <!-- Block 2: Tech Specs (Like screenshot 3) -->
+            <!-- Section Valeurs (3 Colonnes) -->
             <div class="bg-gray-50 py-24">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h2 class="text-3xl font-medium text-black mb-16">Caractéristiques Techniques</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-12 text-left max-w-5xl mx-auto">
-                        <div class="flex items-center gap-4">
-                            <div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
-                            <span class="text-gray-700 text-sm">Cadre aluminium ultra-fin</span>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
-                            <span class="text-gray-700 text-sm">Installation murale simplifiée</span>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
-                            <span class="text-gray-700 text-sm">Surface parfaitement plane</span>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
-                            <span class="text-gray-700 text-sm">Design minimaliste et élégant</span>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
-                            <span class="text-gray-700 text-sm">Fixations invisibles</span>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
-                            <span class="text-gray-700 text-sm">Compatible home cinema et professionnel</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Block 3: Sizes (Like screenshot 4) -->
-            <div class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 text-elysium-gold">
-                    <i data-lucide="ruler" class="w-8 h-8"></i>
-                </div>
-                <h2 class="text-3xl font-medium text-black mb-4">7 Tailles Disponibles</h2>
-                <p class="text-gray-500 mb-12">De 90 pouces à 160 pouces pour s'adapter à tous les espaces</p>
-                
-                <div class="flex flex-wrap justify-center gap-6">
-                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
-                        <span class="block text-2xl font-bold text-black mb-1">90"</span>
-                        <span class="text-xs text-gray-500">197 cm</span>
-                    </div>
-                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
-                        <span class="block text-2xl font-bold text-black mb-1">100"</span>
-                        <span class="text-xs text-gray-500">222 cm</span>
-                    </div>
-                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
-                        <span class="block text-2xl font-bold text-black mb-1">110"</span>
-                        <span class="text-xs text-gray-500">244 cm</span>
-                    </div>
-                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
-                        <span class="block text-2xl font-bold text-black mb-1">120"</span>
-                        <span class="text-xs text-gray-500">266 cm</span>
-                    </div>
-                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
-                        <span class="block text-2xl font-bold text-black mb-1">133"</span>
-                        <span class="text-xs text-gray-500">300 cm</span>
-                    </div>
-                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
-                        <span class="block text-2xl font-bold text-black mb-1">150"</span>
-                        <span class="text-xs text-gray-500">330 cm</span>
-                    </div>
-                    <div class="bg-white border border-gray-200 p-6 w-32 rounded hover:border-elysium-gold transition cursor-default">
-                        <span class="block text-2xl font-bold text-black mb-1">160"</span>
-                        <span class="text-xs text-gray-500">360 cm</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Block 4: Fabrics (Like screenshot 5 with new images) -->
-            <div class="bg-gray-50 py-24">
-                <div class="max-w-7xl mx-auto px-4 text-center">
-                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 text-elysium-gold">
-                        <i data-lucide="palette" class="w-8 h-8"></i>
-                    </div>
-                    <h2 class="text-3xl font-medium text-black mb-4">5 Toiles au Choix</h2>
-                    <p class="text-gray-500 mb-12">Choisissez la toile adaptée à votre environnement et votre projecteur</p>
-
-                    <div class="flex flex-wrap justify-center gap-8">
-                        <!-- Img 1 -->
-                        <div class="bg-white p-4 shadow-sm w-48 hover:shadow-lg transition">
-                            <img src="https://i.imgur.com/glpseed.jpeg" class="w-full h-32 object-cover mb-4 rounded-sm" alt="Toile 1">
-                            <h4 class="font-bold text-sm">Pureview</h4>
-                        </div>
-                        <!-- Img 2 -->
-                        <div class="bg-white p-4 shadow-sm w-48 hover:shadow-lg transition">
-                            <img src="https://i.imgur.com/meMjTUZ.jpeg" class="w-full h-32 object-cover mb-4 rounded-sm" alt="Toile 2">
-                            <h4 class="font-bold text-sm">Aurora Pro ALR</h4>
-                        </div>
-                        <!-- Img 3 -->
-                        <div class="bg-white p-4 shadow-sm w-48 hover:shadow-lg transition">
-                            <img src="https://i.imgur.com/yLbBdYE.jpeg" class="w-full h-32 object-cover mb-4 rounded-sm" alt="Toile 3">
-                            <h4 class="font-bold text-sm">SonicWeave</h4>
-                        </div>
-                        <!-- Img 4 -->
-                        <div class="bg-white p-4 shadow-sm w-48 hover:shadow-lg transition">
-                            <img src="https://i.imgur.com/nw5ISIU.jpeg" class="w-full h-32 object-cover mb-4 rounded-sm" alt="Toile 4">
-                            <h4 class="font-bold text-sm">Apex ALR Standard</h4>
-                        </div>
-                        <!-- Img 5 -->
-                        <div class="bg-white p-4 shadow-sm w-48 hover:shadow-lg transition">
-                            <img src="https://i.imgur.com/i0p8B8n.jpeg" class="w-full h-32 object-cover mb-4 rounded-sm" alt="Toile 5">
-                            <h4 class="font-bold text-sm">Apex ALR UST</h4>
-                        </div>
-                    </div>
+                    <span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-3">Nos Valeurs</span>
+                    <h2 class="text-3xl font-medium text-black mb-16">Ce Qui Nous Guide</h2>
                     
-                    <div class="mt-12">
-                        <button onclick="navigateToHomeSection('fabrics-section')" class="text-elysium-gold text-xs font-bold uppercase tracking-widest hover:text-black transition">
-                            En savoir plus sur les toiles <i data-lucide="arrow-right" class="inline w-4 h-4 ml-1"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        <!-- Valeur 1 -->
+                        <div class="bg-white p-8 border-t-4 border-elysium-gold shadow-sm hover:shadow-xl transition duration-300 reveal-on-scroll">
+                            <h3 class="text-xl font-bold mb-4">Excellence</h3>
+                            <div class="w-10 h-1 bg-elysium-gold mx-auto mb-6"></div>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                Nous ne faisons aucun compromis sur la qualité. Chaque écran est conçu et testé selon les normes les plus strictes pour garantir une performance sans faille.
+                            </p>
+                        </div>
 
-        <!-- ==================== NOUVELLE PAGE: ZENITH (Structure) ==================== -->
-        <section id="model-zenith" class="page-section min-h-screen bg-white">
-             <div class="relative h-[60vh] w-full overflow-hidden luxury-bg animate-luxury-drift flex items-center justify-center">
-                <div class="text-center z-10 px-4">
-                    <img src="https://i.imgur.com/Xx8D9E0.png" alt="Logo" class="h-12 w-auto mx-auto mb-6 opacity-80">
-                    <h1 class="text-heavy text-5xl md:text-7xl text-white mb-2">Zenith</h1>
-                    <p class="text-elysium-gold uppercase tracking-[0.3em] text-sm font-bold">Motorisé de Sol</p>
-                </div>
-            </div>
-            <div class="py-24 text-center">
-                <p class="text-gray-500">Contenu Zenith à venir...</p>
-                <button onclick="navigateTo('contact')" class="mt-8 bg-black text-white px-8 py-3 uppercase tracking-widest text-xs font-bold">Nous contacter</button>
-            </div>
-        </section>
+                        <!-- Valeur 2 -->
+                        <div class="bg-white p-8 border-t-4 border-elysium-gold shadow-sm hover:shadow-xl transition duration-300 reveal-on-scroll" style="transition-delay: 100ms;">
+                            <h3 class="text-xl font-bold mb-4">Innovation</h3>
+                            <div class="w-10 h-1 bg-elysium-gold mx-auto mb-6"></div>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                Notre équipe R&D travaille constamment à repousser les limites de la technologie de projection, intégrant les dernières avancées en matière de matériaux et d'optique.
+                            </p>
+                        </div>
 
-        <!-- ==================== PAGE: CONTACT ==================== -->
-        <section id="contact" class="page-section bg-zinc-950 text-white min-h-screen">
-             <div class="h-24"></div>
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
-                    <div class="reveal-on-scroll">
-                        <span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-3">Contact</span>
-                        <h2 class="text-heavy text-5xl mb-8">Votre projet commence ici</h2>
-                        <div class="space-y-8">
-                            <div class="flex items-center group">
-                                <div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-elysium-gold"><i data-lucide="phone" class="w-5 h-5"></i></div>
-                                <div class="ml-6"><p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Téléphone</p><p class="font-bold text-xl">+33 1 23 45 67 89</p></div>
-                            </div>
-                            <div class="flex items-center group">
-                                <div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-elysium-gold"><i data-lucide="mail" class="w-5 h-5"></i></div>
-                                <div class="ml-6"><p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Email</p><p class="font-bold text-xl">contact@elysiumscreens.fr</p></div>
-                            </div>
-                            <div class="flex items-center group">
-                                <div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-elysium-gold"><i data-lucide="map-pin" class="w-5 h-5"></i></div>
-                                <div class="ml-6"><p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Showroom</p><p class="font-bold text-xl">123 Avenue des Champs-Élysées, 75008 Paris</p></div>
-                            </div>
+                        <!-- Valeur 3 -->
+                        <div class="bg-white p-8 border-t-4 border-elysium-gold shadow-sm hover:shadow-xl transition duration-300 reveal-on-scroll" style="transition-delay: 200ms;">
+                            <h3 class="text-xl font-bold mb-4">Service</h3>
+                            <div class="w-10 h-1 bg-elysium-gold mx-auto mb-6"></div>
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                De la sélection à l'installation, nous accompagnons nos clients à chaque étape de leur projet avec une expertise dédiée et une écoute attentive.
+                            </p>
                         </div>
                     </div>
-                    <div class="bg-zinc-900/50 p-10 border border-zinc-800 reveal-on-scroll">
-                        <form onsubmit="event.preventDefault(); alert('Merci !');">
-                            <div class="grid grid-cols-2 gap-6 mb-6">
-                                <div class="space-y-2"><label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Prénom</label><input type="text" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></div>
-                                <div class="space-y-2"><label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Nom</label><input type="text" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></div>
-                            </div>
-                            <div class="space-y-2 mb-6"><label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Email</label><input type="email" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></div>
-                            <div class="space-y-2 mb-8"><label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Message</label><textarea rows="4" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></textarea></div>
-                            <button class="w-full bg-white text-black font-bold uppercase tracking-widest py-5 hover:bg-elysium-gold hover:text-white transition duration-300">Envoyer</button>
-                        </form>
-                    </div>
                 </div>
             </div>
+        </section>
+
+        <!-- ==================== PAGES: TOILES, MODEL-EDGE-ONE, MODEL-ZENITH, CONTACT (Inchangées) ==================== -->
+        <!-- (Le code de ces pages reste présent et identique aux versions précédentes pour assurer la continuité) -->
+        <section id="model-edge-one" class="page-section min-h-screen bg-white"><div class="relative h-[60vh] w-full overflow-hidden flex items-center justify-center"><img src="https://i.imgur.com/58rDTpZ.jpeg" alt="EdgeOne Background" class="absolute inset-0 w-full h-full object-cover z-0"><div class="absolute inset-0 bg-black/40 z-0"></div><div class="text-center z-10 px-4"><img src="https://i.imgur.com/Xx8D9E0.png" alt="Logo" class="h-12 w-auto mx-auto mb-6 opacity-80"><h1 class="text-heavy text-5xl md:text-7xl text-white mb-2">Edge|One</h1><p class="text-elysium-gold uppercase tracking-[0.3em] text-sm font-bold">Cadre Ultra-Fin</p></div></div><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24"><div class="flex flex-col md:flex-row items-center gap-16"><div class="md:w-1/2"><span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-4">Cadre Ultra-Fin</span><p class="text-gray-600 leading-loose mb-8">L'Edge|One incarne l'excellence en matière d'écrans à cadre fixe. Son design ultra-fin et épuré s'intègre parfaitement à votre intérieur tout en offrant une qualité d'image exceptionnelle.</p><button onclick="navigateTo('contact')" class="bg-white text-black border border-black px-8 py-4 uppercase tracking-widest font-bold text-xs hover:bg-black hover:text-white transition duration-300">Demander un devis <i data-lucide="arrow-right" class="inline w-4 h-4 ml-2"></i></button></div><div class="md:w-1/2"><img src="https://i.imgur.com/RkiY7FD.png" alt="Edge One Room" class="rounded shadow-2xl w-full"></div></div></div><div class="bg-gray-50 py-24"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"><h2 class="text-3xl font-medium text-black mb-16">Caractéristiques Techniques</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-12 text-left max-w-5xl mx-auto"><div class="flex items-center gap-4"><div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div><span class="text-gray-700 text-sm">Cadre aluminium ultra-fin</span></div><div class="flex items-center gap-4"><div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div><span class="text-gray-700 text-sm">Installation murale simplifiée</span></div><div class="flex items-center gap-4"><div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div><span class="text-gray-700 text-sm">Surface parfaitement plane</span></div><div class="flex items-center gap-4"><div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div><span class="text-gray-700 text-sm">Design minimaliste et élégant</span></div><div class="flex items-center gap-4"><div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div><span class="text-gray-700 text-sm">Fixations invisibles</span></div><div class="flex items-center gap-4"><div class="w-6 h-6 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div><span class="text-gray-700 text-sm">Compatible home cinema et professionnel</span></div></div></div></div>
+        </section>
+
+        <section id="model-zenith" class="page-section min-h-screen bg-white"><div class="relative h-[60vh] w-full overflow-hidden flex items-center justify-center"><img src="https://i.imgur.com/58rDTpZ.jpeg" alt="Zenith Background" class="absolute inset-0 w-full h-full object-cover z-0"><div class="absolute inset-0 bg-black/40 z-0"></div><div class="text-center z-10 px-4"><img src="https://i.imgur.com/Xx8D9E0.png" alt="Logo" class="h-12 w-auto mx-auto mb-6 opacity-80"><h1 class="text-heavy text-5xl md:text-7xl text-white mb-2">Zenith</h1><p class="text-elysium-gold uppercase tracking-[0.3em] text-sm font-bold">Motorisé de Sol</p></div></div><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24"><div class="flex flex-col md:flex-row items-center gap-16"><div class="md:w-1/2"><span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-4">Motorisé de Sol</span><img src="893af18af_logozenithcopie.png" alt="Zenith Logo" class="h-16 mb-6"><p class="text-gray-600 leading-loose mb-8">Le Zenith révolutionne l'expérience home cinema avec son écran motorisé de sol équipé d'une toile CLR spécialement optimisée pour les projecteurs ultra courte focale. Élégance et technologie au service de votre confort.</p><button onclick="navigateTo('contact')" class="bg-white text-black border border-black px-8 py-4 uppercase tracking-widest font-bold text-xs hover:bg-black hover:text-white transition duration-300">Demander un devis <i data-lucide="arrow-right" class="inline w-4 h-4 ml-2"></i></button></div><div class="md:w-1/2"><img src="https://i.imgur.com/y2K7dif.png" alt="Zenith Living Room" class="rounded shadow-2xl w-full"></div></div></div><div class="bg-gray-50 py-24"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"><h2 class="text-3xl font-medium text-black mb-16">Innovation & Performance</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 max-w-5xl mx-auto"><div class="flex flex-col items-center"><div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-elysium-gold mb-4"><i data-lucide="zap" class="w-8 h-8"></i></div><h4 class="font-bold text-lg mb-2">Motorisation Silencieuse</h4><p class="text-gray-500 text-sm px-4">Déploiement et rangement automatique ultra-silencieux</p></div><div class="flex flex-col items-center"><div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-elysium-gold mb-4"><i data-lucide="sun" class="w-8 h-8"></i></div><h4 class="font-bold text-lg mb-2">Toile CLR</h4><p class="text-gray-500 text-sm px-4">Rejet de la lumière ambiante pour une image parfaite même en journée</p></div><div class="flex flex-col items-center"><div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-elysium-gold mb-4"><i data-lucide="volume-2" class="w-8 h-8"></i></div><h4 class="font-bold text-lg mb-2">Optimisé UST</h4><p class="text-gray-500 text-sm px-4">Spécialement conçu pour les projecteurs ultra courte focale</p></div></div><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-8 text-left max-w-4xl mx-auto border-t border-gray-200 pt-12"><div class="flex items-center gap-3"><div class="w-5 h-5 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-3 h-3"></i></div><span class="text-gray-700 text-sm">Design minimaliste et discret</span></div><div class="flex items-center gap-3"><div class="w-5 h-5 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-3 h-3"></i></div><span class="text-gray-700 text-sm">Installation simple et rapide</span></div><div class="flex items-center gap-3"><div class="w-5 h-5 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-3 h-3"></i></div><span class="text-gray-700 text-sm">Boîtier élégant en aluminium</span></div><div class="flex items-center gap-3"><div class="w-5 h-5 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-3 h-3"></i></div><span class="text-gray-700 text-sm">Système de tension intégré</span></div><div class="flex items-center gap-3"><div class="w-5 h-5 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-3 h-3"></i></div><span class="text-gray-700 text-sm">Compatible domotique</span></div><div class="flex items-center gap-3"><div class="w-5 h-5 rounded-full bg-elysium-gold/20 flex items-center justify-center text-elysium-gold flex-shrink-0"><i data-lucide="check" class="w-3 h-3"></i></div><span class="text-gray-700 text-sm">Garantie 5 ans</span></div></div></div></div>
+        </section>
+
+        <section id="contact" class="page-section bg-zinc-950 text-white min-h-screen">
+             <!-- (Contenu Contact identique) -->
+             <div class="h-24"></div><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24"><div class="grid grid-cols-1 lg:grid-cols-2 gap-20"><div class="reveal-on-scroll"><span class="text-elysium-gold text-xs font-bold tracking-[0.2em] uppercase block mb-3">Contact</span><h2 class="text-heavy text-5xl mb-8">Votre projet commence ici</h2><div class="space-y-8"><div class="flex items-center group"><div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-elysium-gold"><i data-lucide="phone" class="w-5 h-5"></i></div><div class="ml-6"><p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Téléphone</p><p class="font-bold text-xl">+33 1 23 45 67 89</p></div></div><div class="flex items-center group"><div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-elysium-gold"><i data-lucide="mail" class="w-5 h-5"></i></div><div class="ml-6"><p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Email</p><p class="font-bold text-xl">contact@elysiumscreens.fr</p></div></div><div class="flex items-center group"><div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-elysium-gold"><i data-lucide="map-pin" class="w-5 h-5"></i></div><div class="ml-6"><p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Showroom</p><p class="font-bold text-xl">123 Avenue des Champs-Élysées, 75008 Paris</p></div></div></div></div><div class="bg-zinc-900/50 p-10 border border-zinc-800 reveal-on-scroll"><form onsubmit="event.preventDefault(); alert('Merci !');"><div class="grid grid-cols-2 gap-6 mb-6"><div class="space-y-2"><label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Prénom</label><input type="text" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></div><div class="space-y-2"><label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Nom</label><input type="text" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></div></div><div class="space-y-2 mb-6"><label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Email</label><input type="email" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></div><div class="space-y-2 mb-8"><label class="text-xs uppercase tracking-widest text-gray-500 font-bold">Message</label><textarea rows="4" class="w-full bg-black border border-zinc-700 text-white p-4 focus:border-elysium-gold focus:outline-none transition"></textarea></div><button class="w-full bg-white text-black font-bold uppercase tracking-widest py-5 hover:bg-elysium-gold hover:text-white transition duration-300">Envoyer</button></form></div></div></div>
         </section>
 
     </main>
 
     <!-- FOOTER COMPLET -->
     <footer class="bg-black text-white pt-20 pb-8 border-t border-zinc-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-                <div class="space-y-6">
-                    <img src="https://i.imgur.com/Xx8D9E0.png" alt="Elysium Footer" class="h-10 w-auto object-contain">
-                    <p class="text-gray-500 text-sm leading-relaxed">L'excellence en matière d'écrans de projection. Chaque détail est pensé pour une expérience visuelle incomparable.</p>
-                    <div class="flex space-x-4 pt-2">
-                        <a href="#" class="text-gray-400 hover:text-elysium-gold transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-elysium-gold transition"><i data-lucide="facebook" class="w-5 h-5"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-elysium-gold transition"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-widest text-white mb-6">Navigation</h4>
-                    <ul class="space-y-4 text-sm text-gray-500">
-                        <li><a href="#" onclick="navigateTo('home')" class="hover:text-elysium-gold transition">Accueil</a></li>
-                        <li><a href="#" onclick="navigateTo('model-edge-one')" class="hover:text-elysium-gold transition">Edge|One</a></li>
-                        <li><a href="#" onclick="navigateTo('model-zenith')" class="hover:text-elysium-gold transition">Zenith</a></li>
-                        <li><a href="#" onclick="navigateToHomeSection('fabrics-section')" class="hover:text-elysium-gold transition">Toiles</a></li>
-                        <li><a href="#" onclick="navigateTo('contact')" class="hover:text-elysium-gold transition">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-widest text-white mb-6">Nos Gammes</h4>
-                    <ul class="space-y-4 text-sm text-gray-500">
-                        <li><a href="#" onclick="navigateTo('model-edge-one')" class="hover:text-elysium-gold transition">Edge|One - Cadre Ultra-Fin</a></li>
-                        <li><a href="#" onclick="navigateTo('model-zenith')" class="hover:text-elysium-gold transition">Zenith - Motorisé de Sol</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-widest text-white mb-6">Contact</h4>
-                    <ul class="space-y-4 text-sm text-gray-500">
-                        <li class="flex items-start"><i data-lucide="map-pin" class="w-4 h-4 mt-1 mr-3 text-elysium-gold"></i><span>123 Avenue des Champs-Élysées<br>75008 Paris, France</span></li>
-                        <li class="flex items-center"><i data-lucide="phone" class="w-4 h-4 mr-3 text-elysium-gold"></i><span>+33 1 23 45 67 89</span></li>
-                        <li class="flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-3 text-elysium-gold"></i><span>contact@elysiumscreens.fr</span></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
-                <p>© 2024 ELYSIUM Screens. Tous droits réservés.</p>
-                <div class="flex space-x-6 mt-4 md:mt-0"><a href="#" class="hover:text-white transition">Mentions légales</a><a href="#" class="hover:text-white transition">Politique de confidentialité</a></div>
-            </div>
-        </div>
+        <!-- (Footer identique) -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16"><div class="space-y-6"><img src="https://i.imgur.com/Xx8D9E0.png" alt="Elysium Footer" class="h-10 w-auto object-contain"><p class="text-gray-500 text-sm leading-relaxed">L'excellence en matière d'écrans de projection. Chaque détail est pensé pour une expérience visuelle incomparable.</p><div class="flex space-x-4 pt-2"><a href="#" class="text-gray-400 hover:text-elysium-gold transition"><i data-lucide="instagram" class="w-5 h-5"></i></a><a href="#" class="text-gray-400 hover:text-elysium-gold transition"><i data-lucide="facebook" class="w-5 h-5"></i></a><a href="#" class="text-gray-400 hover:text-elysium-gold transition"><i data-lucide="linkedin" class="w-5 h-5"></i></a></div></div><div><h4 class="text-xs font-bold uppercase tracking-widest text-white mb-6">Navigation</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="#" onclick="navigateTo('home')" class="hover:text-elysium-gold transition">Accueil</a></li><li><a href="#" onclick="navigateTo('model-edge-one')" class="hover:text-elysium-gold transition">Edge|One</a></li><li><a href="#" onclick="navigateTo('model-zenith')" class="hover:text-elysium-gold transition">Zenith</a></li><li><a href="#" onclick="navigateTo('fabrics-page')" class="hover:text-elysium-gold transition">Toiles</a></li><li><a href="#" onclick="navigateTo('about')" class="hover:text-elysium-gold transition">À propos</a></li><li><a href="#" onclick="navigateTo('contact')" class="hover:text-elysium-gold transition">Contact</a></li></ul></div><div><h4 class="text-xs font-bold uppercase tracking-widest text-white mb-6">Nos Gammes</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="#" onclick="navigateTo('model-edge-one')" class="hover:text-elysium-gold transition">Edge|One - Cadre Ultra-Fin</a></li><li><a href="#" onclick="navigateTo('model-zenith')" class="hover:text-elysium-gold transition">Zenith - Motorisé de Sol</a></li></ul></div><div><h4 class="text-xs font-bold uppercase tracking-widest text-white mb-6">Contact</h4><ul class="space-y-4 text-sm text-gray-500"><li class="flex items-start"><i data-lucide="map-pin" class="w-4 h-4 mt-1 mr-3 text-elysium-gold"></i><span>123 Avenue des Champs-Élysées<br>75008 Paris, France</span></li><li class="flex items-center"><i data-lucide="phone" class="w-4 h-4 mr-3 text-elysium-gold"></i><span>+33 1 23 45 67 89</span></li><li class="flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-3 text-elysium-gold"></i><span>contact@elysiumscreens.fr</span></li></ul></div></div><div class="border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600"><p>© 2024 ELYSIUM Screens. Tous droits réservés.</p><div class="flex space-x-6 mt-4 md:mt-0"><a href="#" class="hover:text-white transition">Mentions légales</a><a href="#" class="hover:text-white transition">Politique de confidentialité</a></div></div></div>
     </footer>
 
     <!-- Logic -->
     <script>
         lucide.createIcons();
 
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('main-header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled-nav');
-                header.classList.remove('glass-nav');
+        // (Scripts Navigation et Calculateur inchangés)
+        window.addEventListener('scroll', () => { const header = document.getElementById('main-header'); if (window.scrollY > 50) { header.classList.add('scrolled-nav'); header.classList.remove('glass-nav'); } else { header.classList.add('glass-nav'); header.classList.remove('scrolled-nav'); } });
+        function navigateTo(pageId) { window.scrollTo({ top: 0, behavior: 'smooth' }); document.querySelectorAll('.page-section').forEach(section => { section.classList.remove('active'); }); const target = document.getElementById(pageId); if (target) { target.classList.add('active'); setTimeout(initIntersectionObserver, 100); } setTimeout(() => lucide.createIcons(), 100); document.getElementById('mobile-menu').classList.add('hidden'); }
+        function navigateToHomeSection(sectionId) { navigateTo('home'); setTimeout(() => { const element = document.getElementById(sectionId); if(element) { element.scrollIntoView({behavior: 'smooth'}); } }, 100); }
+        function scrollToSection(elementId) { const element = document.getElementById(elementId); if(element) { element.scrollIntoView({behavior: 'smooth'}); } }
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+        const slider = document.getElementById('distance-slider'); const displayDistance = document.getElementById('distance-display'); const resultInches = document.getElementById('result-inches'); const resultCm = document.getElementById('result-cm');
+        function updateCalculator() { const distanceM = parseFloat(slider.value); displayDistance.textContent = distanceM.toFixed(1) + "m"; const ratio = 1.44; const baseCm = Math.round((distanceM * 100) / ratio); const diagInches = Math.round(baseCm / 2.214); resultCm.textContent = baseCm + "cm"; resultInches.textContent = diagInches + '"'; }
+        slider.addEventListener('input', updateCalculator); updateCalculator();
+        function initIntersectionObserver() { const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 }; const observer = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); } }); }, observerOptions); const revealElements = document.querySelectorAll('.reveal-on-scroll'); revealElements.forEach(el => observer.observe(el)); }
+        document.addEventListener('DOMContentLoaded', initIntersectionObserver);
+
+        // --- NOUVEAUX SCRIPTS INTERACTIFS POUR LES TOILES ---
+        
+        // 1. Luminosité (Ampoule)
+        const lightSlider = document.getElementById('light-slider');
+        const bulbIcon = document.getElementById('bulb-icon');
+        const lightText = document.getElementById('light-text');
+        
+        lightSlider.addEventListener('input', () => {
+            const val = parseInt(lightSlider.value);
+            if (val === 0) {
+                bulbIcon.style.color = '#d1d5db'; // gray-300
+                bulbIcon.style.filter = 'drop-shadow(0 0 0 transparent)';
+                lightText.innerText = "Salle obscure";
+                lightText.style.color = "#1a1a1a";
+            } else if (val === 1) {
+                bulbIcon.style.color = '#fcd34d'; // amber-300
+                bulbIcon.style.filter = 'drop-shadow(0 0 5px #fcd34d)';
+                lightText.innerText = "Lumière contrôlée";
+                lightText.style.color = "#d97706";
             } else {
-                header.classList.add('glass-nav');
-                header.classList.remove('scrolled-nav');
+                bulbIcon.style.color = '#fbbf24'; // amber-400
+                bulbIcon.style.filter = 'drop-shadow(0 0 15px #fbbf24)';
+                lightText.innerText = "Salon très lumineux";
+                lightText.style.color = "#C5A059";
             }
         });
 
-        function navigateTo(pageId) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            document.querySelectorAll('.page-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            const target = document.getElementById(pageId);
-            if (target) {
-                target.classList.add('active');
-                setTimeout(initIntersectionObserver, 100);
+        // 2. Projecteur (Faisceau)
+        function triggerBeam() {
+            const beam = document.getElementById('projector-beam');
+            beam.style.opacity = "0.6";
+            beam.style.animation = "none";
+            beam.offsetHeight; /* trigger reflow */
+            beam.style.animation = "beam 2s forwards";
+        }
+
+        // 3. Audio (Ondes)
+        const audioToggle = document.getElementById('audio-toggle');
+        const waves = document.querySelectorAll('.sound-wave');
+        
+        audioToggle.addEventListener('change', () => {
+            if (audioToggle.checked) {
+                waves.forEach(w => w.classList.remove('hidden'));
+            } else {
+                waves.forEach(w => w.classList.add('hidden'));
             }
-            setTimeout(() => lucide.createIcons(), 100);
-            document.getElementById('mobile-menu').classList.add('hidden');
-        }
+        });
 
-        function navigateToHomeSection(sectionId) {
-            navigateTo('home');
-            setTimeout(() => {
-                const element = document.getElementById(sectionId);
-                if(element) {
-                    element.scrollIntoView({behavior: 'smooth'});
-                }
-            }, 100);
-        }
-        
-        function scrollToSection(elementId) {
-             const element = document.getElementById(elementId);
-             if(element) {
-                 element.scrollIntoView({behavior: 'smooth'});
-             }
-        }
-
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        }
-
-        const slider = document.getElementById('distance-slider');
-        const displayDistance = document.getElementById('distance-display');
-        const resultInches = document.getElementById('result-inches');
-        const resultCm = document.getElementById('result-cm');
-        
-        function updateCalculator() {
-            const distanceM = parseFloat(slider.value);
-            displayDistance.textContent = distanceM.toFixed(1) + "m";
-            const ratio = 1.44; 
-            const baseCm = Math.round((distanceM * 100) / ratio);
-            const diagInches = Math.round(baseCm / 2.214);
-            resultCm.textContent = baseCm + "cm";
-            resultInches.textContent = diagInches + '"';
-        }
-
-        slider.addEventListener('input', updateCalculator);
-        updateCalculator();
-
-        function initIntersectionObserver() {
-            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    }
-                });
-            }, observerOptions);
-            const revealElements = document.querySelectorAll('.reveal-on-scroll');
-            revealElements.forEach(el => observer.observe(el));
-        }
-
-        document.addEventListener('DOMContentLoaded', initIntersectionObserver);
     </script>
 </body>
 </html>
+
